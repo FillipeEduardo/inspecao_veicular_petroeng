@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Inspeção Veicular PetroEng',
       theme: ThemeData(
         colorScheme: .fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: Color(0xFF1E3A8A),
           primary: Color(0xFF1E3A8A),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -12,12 +13,70 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       child: Column(
+        mainAxisAlignment: .spaceBetween,
+        crossAxisAlignment: .center,
+        mainAxisSize: .max,
         children: [
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "E-mail",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+          InputPadrao(label: "E-mail"),
+          InputPadrao(label: "Senha", ehSenha: true),
+          Row(mainAxisAlignment: .end, children: [Text("Esqueci minha senha")]),
+          SizedBox(
+            width: .infinity,
+            child: ElevatedButton(
+              onPressed: () => {},
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(
+                  Theme.of(context).colorScheme.primary,
+                ),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+              ),
+              child: Row(
+                mainAxisAlignment: .center,
+                spacing: 5,
+                children: [
+                  Icon(Icons.login, color: Colors.white),
+                  Text(
+                    "Entrar",
+                    style: TextStyle(color: Colors.white, fontWeight: .bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: .infinity,
+            child: ElevatedButton(
+              onPressed: () => {},
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+              ),
+              child: Row(
+                mainAxisAlignment: .center,
+                spacing: 5,
+                children: [
+                  Icon(
+                    Icons.person_add_alt_1,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Text(
+                    "Criar nova conta",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: .bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
