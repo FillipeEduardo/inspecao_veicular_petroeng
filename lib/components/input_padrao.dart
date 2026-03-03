@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class InputPadrao extends StatefulWidget {
   final String label;
   final bool? ehSenha;
+  final Widget? prefixIcon;
 
-  const InputPadrao({super.key, required this.label, this.ehSenha});
+  const InputPadrao({
+    super.key,
+    required this.label,
+    this.ehSenha,
+    this.prefixIcon,
+  });
 
   @override
   State<InputPadrao> createState() => _InputPadraoState();
@@ -29,7 +35,9 @@ class _InputPadraoState extends State<InputPadrao> {
         ),
         suffixIcon: widget.ehSenha == true
             ? IconButton(
-                icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
+                icon: Icon(
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
                 onPressed: () {
                   setState(() {
                     obscureText = !obscureText;
@@ -37,6 +45,7 @@ class _InputPadraoState extends State<InputPadrao> {
                 },
               )
             : null,
+        prefixIcon: widget.prefixIcon,
       ),
       obscureText: obscureText,
     );

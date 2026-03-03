@@ -17,9 +17,27 @@ class _LoginFormState extends State<LoginForm> {
         crossAxisAlignment: .center,
         mainAxisSize: .max,
         children: [
-          InputPadrao(label: "E-mail"),
-          InputPadrao(label: "Senha", ehSenha: true),
-          Row(mainAxisAlignment: .end, children: [Text("Esqueci minha senha")]),
+          InputPadrao(label: "E-mail", prefixIcon: Icon(Icons.mail)),
+          InputPadrao(
+            label: "Senha",
+            ehSenha: true,
+            prefixIcon: Icon(Icons.lock),
+          ),
+          Row(
+            mainAxisAlignment: .end,
+            children: [
+              TextButton(
+                onPressed: () => {},
+                style: ButtonStyle(
+                  padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                  fixedSize: WidgetStatePropertyAll(Size(.infinity, 0)),
+                  tapTargetSize: .shrinkWrap,
+                  visualDensity: .compact,
+                ),
+                child: Text("Esqueci minha senha"),
+              ),
+            ],
+          ),
           SizedBox(
             width: .infinity,
             child: ElevatedButton(
@@ -47,6 +65,26 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
             ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Divider(color: Colors.grey.shade400, thickness: 1),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  "ou",
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Divider(color: Colors.grey.shade400, thickness: 1),
+              ),
+            ],
           ),
           SizedBox(
             width: .infinity,
