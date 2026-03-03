@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: .center,
                     children: [
                       Text(
-                        "VehicleCheck",
+                        "PETROENG",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: .bold,
