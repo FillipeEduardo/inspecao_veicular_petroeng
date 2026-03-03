@@ -9,6 +9,7 @@ class InputPadrao extends StatefulWidget {
   final String nome;
   final TextInputAction? textInputAction;
   final void Function()? onSubmit;
+  final TextInputType? keyboardType;
 
   const InputPadrao({
     super.key,
@@ -20,6 +21,7 @@ class InputPadrao extends StatefulWidget {
     required this.nome,
     this.textInputAction,
     this.onSubmit,
+    this.keyboardType,
   });
 
   @override
@@ -42,6 +44,7 @@ class _InputPadraoState extends State<InputPadrao> {
       initialValue: widget.formState[widget.nome],
       textInputAction: widget.textInputAction,
       onSaved: (value) => widget.formState[widget.nome] = value,
+      keyboardType: widget.keyboardType,
       onFieldSubmitted: widget.onSubmit != null
           ? (_) => widget.onSubmit!()
           : null,

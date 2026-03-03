@@ -37,6 +37,7 @@ class _LoginFormState extends State<LoginForm> {
             formState: _formState,
             textInputAction: .next,
             label: "E-mail",
+            keyboardType: .emailAddress,
             prefixIcon: Icon(Icons.mail),
             validacao: Validators.validacaoEmail,
           ),
@@ -45,6 +46,7 @@ class _LoginFormState extends State<LoginForm> {
             formState: _formState,
             textInputAction: .done,
             onSubmit: _onSubmit,
+            keyboardType: .multiline,
             label: "Senha",
             ehSenha: true,
             prefixIcon: Icon(Icons.lock),
@@ -66,35 +68,38 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(
             width: .infinity,
-            child: ElevatedButton(
-              onPressed: isLoading ? null : _onSubmit,
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(
-                  Theme.of(context).colorScheme.primary,
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              decoration: BoxDecoration(
+                color: isLoading
+                    ? Colors.grey
+                    : Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: isLoading
-                  ? CircularProgressIndicator(color: Colors.white)
-                  : Row(
-                      mainAxisAlignment: .center,
-                      spacing: 5,
-                      children: [
-                        Icon(Icons.login, color: Colors.white),
-                        Text(
-                          "Entrar",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: .bold,
+              child: ElevatedButton(
+                onPressed: isLoading ? null : _onSubmit,
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                  shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                  fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+                ),
+                child: isLoading
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Row(
+                        mainAxisAlignment: .center,
+                        spacing: 5,
+                        children: [
+                          Icon(Icons.login, color: Colors.white),
+                          Text(
+                            "Entrar",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: .bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+              ),
             ),
           ),
           Row(
