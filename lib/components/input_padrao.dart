@@ -4,12 +4,22 @@ class InputPadrao extends StatefulWidget {
   final String label;
   final bool? ehSenha;
   final Widget? prefixIcon;
+  final FormFieldValidator<String>? validacao;
+  final Map<String, String?> formState;
+  final String nome;
+  final TextInputAction? textInputAction;
+  final void Function()? onSubmit;
 
   const InputPadrao({
     super.key,
     required this.label,
     this.ehSenha,
     this.prefixIcon,
+    this.validacao,
+    required this.formState,
+    required this.nome,
+    this.textInputAction,
+    this.onSubmit,
   });
 
   @override
@@ -28,6 +38,13 @@ class _InputPadraoState extends State<InputPadrao> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: widget.validacao,
+      initialValue: widget.formState[widget.nome],
+      textInputAction: widget.textInputAction,
+      onSaved: (value) => widget.formState[widget.nome] = value,
+      onFieldSubmitted: widget.onSubmit != null
+          ? (_) => widget.onSubmit!()
+          : null,
       decoration: InputDecoration(
         labelText: widget.label,
         border: OutlineInputBorder(

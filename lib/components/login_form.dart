@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
+import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -9,16 +10,41 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _formState = <String, String?>{};
+  bool isLoading = false;
+
+  Future<void> _onSubmit() async {
+    setState(() => isLoading = true);
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      await Future.delayed(Duration(seconds: 5));
+    }
+    setState(() => isLoading = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         mainAxisAlignment: .spaceBetween,
         crossAxisAlignment: .center,
         mainAxisSize: .max,
         children: [
-          InputPadrao(label: "E-mail", prefixIcon: Icon(Icons.mail)),
           InputPadrao(
+            nome: "email",
+            formState: _formState,
+            textInputAction: .next,
+            label: "E-mail",
+            prefixIcon: Icon(Icons.mail),
+            validacao: Validators.validacaoEmail,
+          ),
+          InputPadrao(
+            nome: "senha",
+            formState: _formState,
+            textInputAction: .done,
+            onSubmit: _onSubmit,
             label: "Senha",
             ehSenha: true,
             prefixIcon: Icon(Icons.lock),
@@ -41,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             width: .infinity,
             child: ElevatedButton(
-              onPressed: () => {},
+              onPressed: isLoading ? null : _onSubmit,
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(
                   Theme.of(context).colorScheme.primary,
@@ -53,17 +79,22 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
               ),
-              child: Row(
-                mainAxisAlignment: .center,
-                spacing: 5,
-                children: [
-                  Icon(Icons.login, color: Colors.white),
-                  Text(
-                    "Entrar",
-                    style: TextStyle(color: Colors.white, fontWeight: .bold),
-                  ),
-                ],
-              ),
+              child: isLoading
+                  ? CircularProgressIndicator(color: Colors.white)
+                  : Row(
+                      mainAxisAlignment: .center,
+                      spacing: 5,
+                      children: [
+                        Icon(Icons.login, color: Colors.white),
+                        Text(
+                          "Entrar",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: .bold,
+                          ),
+                        ),
+                      ],
+                    ),
             ),
           ),
           Row(
