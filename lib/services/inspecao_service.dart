@@ -24,7 +24,10 @@ class InspecaoService {
           modelo: "Fiat argo",
           placa: "fdf-5465",
         ),
-        statusInspecao: StatusInspecao(id: 1, nome: "Andamento"),
+        statusInspecao: StatusInspecao(
+          id: statusId,
+          nome: statusId == 1 ? "Em andamento" : "Concluída",
+        ),
       );
       inspecoes.add(inspecao);
     }

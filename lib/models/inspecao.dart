@@ -2,11 +2,11 @@ import 'package:inspecao_veicular_petroeng/models/status_inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 
 class Inspecao {
-  int id;
-  DateTime dataInspecao;
-  int statusId;
-  StatusInspecao statusInspecao;
-  Veiculo veiculo;
+  final int id;
+  final DateTime dataInspecao;
+  final int statusId;
+  final StatusInspecao statusInspecao;
+  final Veiculo veiculo;
 
   Inspecao({
     required this.id,
