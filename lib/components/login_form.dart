@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
+import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginFormState extends State<LoginForm> {
     setState(() => isLoading = true);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      await Future.delayed(Duration(seconds: 5));
+      Navigator.of(context).pushReplacementNamed(AppRoutes.listaInspecoes);
     }
     setState(() => isLoading = false);
   }
