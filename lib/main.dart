@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/pages/lista_inspecoes_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
