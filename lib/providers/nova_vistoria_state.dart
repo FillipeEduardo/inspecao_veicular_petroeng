@@ -17,9 +17,9 @@ class NovaVistoriaState {
     this.id,
     required this.data,
     required this.quilometragemVeiculo,
-    this.observacao,
     required this.status,
     required this.veiculo,
+    this.observacao,
     this.fotos,
     this.inspecoes,
   });
