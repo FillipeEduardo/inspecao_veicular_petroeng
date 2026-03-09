@@ -32,4 +32,26 @@ class NovaVistoriaState {
       veiculo: Veiculo(ano: 2000, id: 1, modelo: "", placa: ""),
     );
   }
+
+  NovaVistoriaState copyWith({
+    int? id,
+    DateTime? data,
+    int? quilometragemVeiculo,
+    String? observacao,
+    StatusVistoria? status,
+    Veiculo? veiculo,
+    List<Foto>? fotos,
+    List<Inspecao>? inspecoes,
+  }) {
+    return NovaVistoriaState(
+      id: id ?? this.id,
+      data: data ?? this.data,
+      quilometragemVeiculo: quilometragemVeiculo ?? this.quilometragemVeiculo,
+      observacao: observacao ?? this.observacao,
+      status: status ?? this.status,
+      veiculo: veiculo ?? this.veiculo,
+      fotos: fotos ?? this.fotos,
+      inspecoes: inspecoes ?? this.inspecoes,
+    );
+  }
 }
