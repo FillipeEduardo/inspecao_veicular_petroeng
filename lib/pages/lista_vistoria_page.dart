@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
-import 'package:inspecao_veicular_petroeng/providers/inspecao_provider.dart';
+import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
+import 'package:inspecao_veicular_petroeng/providers/vistoria_provider.dart';
 import 'package:intl/intl.dart';
 
-class ListaInspecoesPage extends ConsumerStatefulWidget {
-  const ListaInspecoesPage({super.key});
+class ListaVistoriaPage extends ConsumerStatefulWidget {
+  const ListaVistoriaPage({super.key});
 
   @override
-  ConsumerState<ListaInspecoesPage> createState() => _ListaInspecoesPageState();
+  ConsumerState<ListaVistoriaPage> createState() => _ListaVistoriaPageState();
 }
 
-class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
+class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(inspecaoProvider.notifier).loadInspecoes(statusId: 1);
+      ref.read(vistoriaProvider.notifier).loadVistorias(statusId: 1);
     });
     _scrollController.addListener(_onScroll);
   }
@@ -32,19 +32,19 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
-      ref.read(inspecaoProvider.notifier).loadMore();
+      ref.read(vistoriaProvider.notifier).loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(inspecaoProvider);
+    final state = ref.watch(vistoriaProvider);
 
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
         title: Text(
-          "Minhas Inspeções",
+          "Minhas Vistorias",
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         ref
-                            .read(inspecaoProvider.notifier)
+                            .read(vistoriaProvider.notifier)
                             .changeStatusFilter(1);
                       },
                       style: ButtonStyle(
@@ -116,7 +116,7 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         ref
-                            .read(inspecaoProvider.notifier)
+                            .read(vistoriaProvider.notifier)
                             .changeStatusFilter(2);
                       },
                       style: ButtonStyle(
@@ -149,15 +149,15 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
             ),
 
             Expanded(
-              child: state.inspecoes.isEmpty
+              child: state.vistorias.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       controller: _scrollController,
                       padding: const EdgeInsets.all(16),
                       itemCount:
-                          state.inspecoes.length + (state.hasMore ? 1 : 0),
+                          state.vistorias.length + (state.hasMore ? 1 : 0),
                       itemBuilder: (context, index) {
-                        if (index == state.inspecoes.length) {
+                        if (index == state.vistorias.length) {
                           return const Center(
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
@@ -165,8 +165,8 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
                             ),
                           );
                         }
-                        final inspecao = state.inspecoes[index];
-                        return _InspecaoCard(inspecao: inspecao);
+                        final vistoria = state.vistorias[index];
+                        return _VistoriaCard(vistoria: vistoria);
                       },
                     ),
             ),
@@ -177,10 +177,10 @@ class _ListaInspecoesPageState extends ConsumerState<ListaInspecoesPage> {
   }
 }
 
-class _InspecaoCard extends StatelessWidget {
-  final Inspecao inspecao;
+class _VistoriaCard extends StatelessWidget {
+  final Vistoria vistoria;
 
-  const _InspecaoCard({required this.inspecao});
+  const _VistoriaCard({required this.vistoria});
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +189,7 @@ class _InspecaoCard extends StatelessWidget {
       elevation: 2,
       child: InkWell(
         onTap: () {
-          // TODO: Navegar para detalhes da inspeção
+          // TODO: Navegar para detalhes da vistoria
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
@@ -201,7 +201,7 @@ class _InspecaoCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    inspecao.veiculo.modelo,
+                    vistoria.veiculo.modelo,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -213,17 +213,17 @@ class _InspecaoCard extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: inspecao.statusInspecao.id == 1
+                      color: vistoria.status.id == 1
                           ? Colors.orange.shade100
                           : Colors.green.shade100,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      inspecao.statusInspecao.nome,
+                      vistoria.status.nome,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: inspecao.statusInspecao.id == 1
+                        color: vistoria.status.id == 1
                             ? Colors.orange.shade900
                             : Colors.green.shade900,
                       ),
@@ -237,7 +237,7 @@ class _InspecaoCard extends StatelessWidget {
                   Icon(Icons.drive_eta, size: 16, color: Colors.grey.shade600),
                   const SizedBox(width: 4),
                   Text(
-                    inspecao.veiculo.placa.toUpperCase(),
+                    vistoria.veiculo.placa.toUpperCase(),
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                   const SizedBox(width: 16),
@@ -248,7 +248,7 @@ class _InspecaoCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${inspecao.veiculo.ano}',
+                    '${vistoria.veiculo.ano}',
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                 ],
@@ -263,9 +263,7 @@ class _InspecaoCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    DateFormat(
-                      'dd/MM/yyyy - HH:mm',
-                    ).format(inspecao.dataInspecao),
+                    DateFormat('dd/MM/yyyy - HH:mm').format(vistoria.data),
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                 ],

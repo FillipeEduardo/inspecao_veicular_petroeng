@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
-import 'package:inspecao_veicular_petroeng/pages/lista_inspecoes_page.dart';
+import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
       routes: {
         AppRoutes.login: (ctx) => const LoginPage(),
-        AppRoutes.listaInspecoes: (ctx) => const ListaInspecoesPage(),
+        AppRoutes.listaVistoria: (ctx) => const ListaVistoriaPage(),
       },
     );
   }

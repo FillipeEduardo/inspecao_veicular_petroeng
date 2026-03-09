@@ -1,23 +1,23 @@
-import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
+import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
 
-class InspecaoState {
-  final List<Inspecao> inspecoes;
+class VistoriaState {
+  final List<Vistoria> vistorias;
   final int currentPage;
   final bool hasMore;
   final bool isLoadingMore;
   final int statusId;
 
-  InspecaoState({
-    required this.inspecoes,
+  VistoriaState({
+    required this.vistorias,
     required this.currentPage,
     required this.hasMore,
     required this.isLoadingMore,
     required this.statusId,
   });
 
-  factory InspecaoState.initial({int statusId = 1}) {
-    return InspecaoState(
-      inspecoes: [],
+  factory VistoriaState.initial({int statusId = 1}) {
+    return VistoriaState(
+      vistorias: [],
       currentPage: 1,
       hasMore: true,
       isLoadingMore: false,
@@ -25,15 +25,15 @@ class InspecaoState {
     );
   }
 
-  InspecaoState copyWith({
-    List<Inspecao>? inspecoes,
+  VistoriaState copyWith({
+    List<Vistoria>? vistorias,
     int? currentPage,
     bool? hasMore,
     bool? isLoadingMore,
     int? statusId,
   }) {
-    return InspecaoState(
-      inspecoes: inspecoes ?? this.inspecoes,
+    return VistoriaState(
+      vistorias: vistorias ?? this.vistorias,
       currentPage: currentPage ?? this.currentPage,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,

@@ -19,7 +19,7 @@ class _LoginFormState extends State<LoginForm> {
     setState(() => isLoading = true);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.of(context).pushReplacementNamed(AppRoutes.listaInspecoes);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.listaVistoria);
     }
     setState(() => isLoading = false);
   }

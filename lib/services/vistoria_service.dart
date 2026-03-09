@@ -1,36 +1,36 @@
 import 'package:dio/dio.dart';
-import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
-import 'package:inspecao_veicular_petroeng/models/status_inspecao.dart';
+import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
+import 'package:inspecao_veicular_petroeng/models/status_vistoria.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 
-class InspecaoService {
+class VistoriaService {
   Dio dio = Dio();
 
-  Future<List<Inspecao>> obterInspecoesPorUsuario(
+  Future<List<Vistoria>> obterVistoriasPorUsuario(
     int page,
     int statusId,
   ) async {
     await Future.delayed(Duration(seconds: 1));
-    List<Inspecao> inspecoes = [];
+    List<Vistoria> vistorias = [];
 
     for (var i = 1; i <= 10; i++) {
-      var inspecao = Inspecao(
+      var vistoria = Vistoria(
         id: i,
-        dataInspecao: DateTime.now(),
-        statusId: 1,
+        data: DateTime.now(),
         veiculo: Veiculo(
           ano: 2025,
           id: 1,
           modelo: "Fiat argo",
           placa: "fdf-5465",
         ),
-        statusInspecao: StatusInspecao(
+        quilometragem: 8000,
+        status: StatusVistoria(
           id: statusId,
           nome: statusId == 1 ? "Em andamento" : "Concluída",
         ),
       );
-      inspecoes.add(inspecao);
+      vistorias.add(vistoria);
     }
-    return inspecoes;
+    return vistorias;
   }
 }
