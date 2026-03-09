@@ -1,18 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspecao_veicular_petroeng/providers/vistoria_state.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_vistoria_state.dart';
 import 'package:inspecao_veicular_petroeng/services/vistoria_service.dart';
 
-class VistoriaNotifier extends Notifier<VistoriaState> {
-  VistoriaService get _service => ref.read(vistoriaServiceProvider);
+class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
+  VistoriaService get _service => ref.read(listaVistoriaServiceProvider);
 
   @override
-  VistoriaState build() {
-    return VistoriaState.initial();
+  ListaVistoriaState build() {
+    return ListaVistoriaState.initial();
   }
 
   Future<void> loadVistorias({int statusId = 1}) async {
     try {
-      state = VistoriaState.initial(statusId: statusId);
+      state = ListaVistoriaState.initial(statusId: statusId);
 
       final vistorias = await _service.obterVistoriasPorUsuario(1, statusId);
 
@@ -22,7 +22,7 @@ class VistoriaNotifier extends Notifier<VistoriaState> {
         hasMore: vistorias.length >= 10,
       );
     } catch (e) {
-      state = VistoriaState.initial(statusId: statusId);
+      state = ListaVistoriaState.initial(statusId: statusId);
       rethrow;
     }
   }
@@ -57,10 +57,11 @@ class VistoriaNotifier extends Notifier<VistoriaState> {
   }
 }
 
-final vistoriaServiceProvider = Provider<VistoriaService>((ref) {
+final listaVistoriaServiceProvider = Provider<VistoriaService>((ref) {
   return VistoriaService();
 });
 
-final vistoriaProvider = NotifierProvider<VistoriaNotifier, VistoriaState>(() {
-  return VistoriaNotifier();
-});
+final listaVistoriaProvider =
+    NotifierProvider<ListaVistoriaNotifier, ListaVistoriaState>(() {
+      return ListaVistoriaNotifier();
+    });

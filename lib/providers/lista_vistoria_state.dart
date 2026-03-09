@@ -1,13 +1,13 @@
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
 
-class VistoriaState {
+class ListaVistoriaState {
   final List<Vistoria> vistorias;
   final int currentPage;
   final bool hasMore;
   final bool isLoadingMore;
   final int statusId;
 
-  VistoriaState({
+  ListaVistoriaState({
     required this.vistorias,
     required this.currentPage,
     required this.hasMore,
@@ -15,8 +15,8 @@ class VistoriaState {
     required this.statusId,
   });
 
-  factory VistoriaState.initial({int statusId = 1}) {
-    return VistoriaState(
+  factory ListaVistoriaState.initial({int statusId = 1}) {
+    return ListaVistoriaState(
       vistorias: [],
       currentPage: 1,
       hasMore: true,
@@ -25,14 +25,14 @@ class VistoriaState {
     );
   }
 
-  VistoriaState copyWith({
+  ListaVistoriaState copyWith({
     List<Vistoria>? vistorias,
     int? currentPage,
     bool? hasMore,
     bool? isLoadingMore,
     int? statusId,
   }) {
-    return VistoriaState(
+    return ListaVistoriaState(
       vistorias: vistorias ?? this.vistorias,
       currentPage: currentPage ?? this.currentPage,
       hasMore: hasMore ?? this.hasMore,

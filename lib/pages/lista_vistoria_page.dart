@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
-import 'package:inspecao_veicular_petroeng/providers/vistoria_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_vistoria_provider.dart';
 import 'package:intl/intl.dart';
 
 class ListaVistoriaPage extends ConsumerStatefulWidget {
@@ -18,7 +18,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(vistoriaProvider.notifier).loadVistorias(statusId: 1);
+      ref.read(listaVistoriaProvider.notifier).loadVistorias(statusId: 1);
     });
     _scrollController.addListener(_onScroll);
   }
@@ -32,13 +32,13 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
-      ref.read(vistoriaProvider.notifier).loadMore();
+      ref.read(listaVistoriaProvider.notifier).loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(vistoriaProvider);
+    final state = ref.watch(listaVistoriaProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +60,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
           Padding(
             padding: const EdgeInsets.all(12),
             child: Icon(
-              Icons.menu,
+              Icons.add,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
@@ -84,7 +84,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         ref
-                            .read(vistoriaProvider.notifier)
+                            .read(listaVistoriaProvider.notifier)
                             .changeStatusFilter(1);
                       },
                       style: ButtonStyle(
@@ -116,7 +116,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         ref
-                            .read(vistoriaProvider.notifier)
+                            .read(listaVistoriaProvider.notifier)
                             .changeStatusFilter(2);
                       },
                       style: ButtonStyle(
