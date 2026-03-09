@@ -23,7 +23,7 @@ class VistoriaService {
           modelo: "Fiat argo",
           placa: "fdf-5465",
         ),
-        quilometragem: 8000,
+        quilometragemVeiculo: 8000,
         status: StatusVistoria(
           id: statusId,
           nome: statusId == 1 ? "Em andamento" : "Concluída",

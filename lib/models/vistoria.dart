@@ -6,13 +6,13 @@ class Vistoria {
   final DateTime data;
   final StatusVistoria status;
   final Veiculo veiculo;
-  final int quilometragem;
+  final int quilometragemVeiculo;
 
   Vistoria({
     required this.id,
     required this.data,
     required this.status,
     required this.veiculo,
-    required this.quilometragem,
+    required this.quilometragemVeiculo,
   });
 }
