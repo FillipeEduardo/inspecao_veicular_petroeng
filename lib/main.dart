@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
-import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
-import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspecao_veicular_petroeng/pages/nova_vistoria_inicial_page.dart';
+import 'package:inspecao_veicular_petroeng/providers/router/router_provider.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    return MaterialApp.router(
       title: 'Inspeção Veicular PetroEng',
       theme: ThemeData(
         colorScheme: .fromSeed(
@@ -23,12 +21,7 @@ class MyApp extends StatelessWidget {
           secondary: Color(0xFFF97316),
         ),
       ),
-      home: LoginPage(),
-      routes: {
-        AppRoutes.login: (ctx) => const LoginPage(),
-        AppRoutes.listaVistoria: (ctx) => const ListaVistoriaPage(),
-        AppRoutes.novaVistoriaInicial: (ctx) => const NovaVistoriaInicialPage(),
-      },
+      routerConfig: router,
     );
   }
 }

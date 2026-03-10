@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
+import 'package:go_router/go_router.dart';
+import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
+import 'package:inspecao_veicular_petroeng/services/auth_service.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _formState = <String, String?>{};
   bool isLoading = false;
@@ -19,9 +23,19 @@ class _LoginFormState extends State<LoginForm> {
     setState(() => isLoading = true);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.of(context).pushReplacementNamed(AppRoutes.listaVistoria);
+      final token = await AuthService().login(
+        email: _formState["email"]!,
+        senha: _formState["senha"]!,
+      );
+      if (token != null) {
+        await ref.read(authProvider.notifier).login(token);
+        if (!mounted) return;
+        context.go(AppRoutes.listaVistoria);
+      } else {}
     }
-    setState(() => isLoading = false);
+    if (mounted) {
+      setState(() => isLoading = false);
+    }
   }
 
   @override

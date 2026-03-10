@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_vistoria/lista_vistoria_provider.dart';
@@ -68,8 +69,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            Navigator.of(context).pushNamed(AppRoutes.novaVistoriaInicial),
+        onPressed: () => context.push(AppRoutes.novaVistoriaInicial),
         backgroundColor: Theme.of(context).colorScheme.secondary,
         child: Icon(Icons.add, color: Colors.white, size: 40),
       ),
