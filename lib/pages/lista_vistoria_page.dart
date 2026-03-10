@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
-import 'package:inspecao_veicular_petroeng/providers/lista_vistoria_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_vistoria/lista_vistoria_provider.dart';
 import 'package:intl/intl.dart';
 
 class ListaVistoriaPage extends ConsumerStatefulWidget {
@@ -60,11 +61,17 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
           Padding(
             padding: const EdgeInsets.all(12),
             child: Icon(
-              Icons.add,
+              Icons.menu,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            Navigator.of(context).pushNamed(AppRoutes.novaVistoriaInicial),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        child: Icon(Icons.add, color: Colors.white, size: 40),
       ),
       body: SafeArea(
         child: Column(

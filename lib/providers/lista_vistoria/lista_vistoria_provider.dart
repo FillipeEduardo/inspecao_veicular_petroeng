@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspecao_veicular_petroeng/providers/lista_vistoria_state.dart';
-import 'package:inspecao_veicular_petroeng/providers/vistoria_service_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_vistoria/lista_vistoria_state.dart';
+import 'package:inspecao_veicular_petroeng/providers/services/vistoria_service_provider.dart';
 import 'package:inspecao_veicular_petroeng/services/vistoria_service.dart';
 
 class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
