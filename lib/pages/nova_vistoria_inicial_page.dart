@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/components/dropdown_padrao.dart';
+import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
+import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
 
 class NovaVistoriaInicialPage extends ConsumerStatefulWidget {
@@ -26,7 +28,7 @@ class _NovaVistoriaInicialPageState
 
   void _onSubmit() {
     if (_formKey.currentState!.validate()) {
-      print(_formState);
+      _formKey.currentState!.save();
     }
   }
 
@@ -67,27 +69,256 @@ class _NovaVistoriaInicialPageState
             child: Form(
               key: _formKey,
               child: Column(
+                spacing: 30,
                 children: [
-                  DropdownPadrao(
-                    label: "Veículo para Inspeção",
-                    opcoes: veiculos
-                        .map(
-                          (veiculo) => {
-                            veiculo.id:
-                                '${veiculo.modelo} - ${veiculo.placa.toUpperCase()}',
-                          },
-                        )
-                        .toList(),
-                    formState: _formState,
-                    nome: "veiculoId",
-                    validacao: (value) {
-                      if (value == null) return "Selecione um veículo.";
-                      return null;
-                    },
+                  Column(
+                    spacing: 10,
+                    children: [
+                      DropdownPadrao(
+                        label: "Veículo para Inspeção",
+                        opcoes: veiculos
+                            .map(
+                              (veiculo) => {
+                                veiculo.id:
+                                    '${veiculo.modelo} - ${veiculo.placa.toUpperCase()}',
+                              },
+                            )
+                            .toList(),
+                        formState: _formState,
+                        nome: "veiculoId",
+                        validacao: (value) {
+                          if (value == null) return "Selecione um veículo.";
+                          return null;
+                        },
+                      ),
+                      Row(
+                        spacing: 5,
+                        children: [
+                          Icon(
+                            Icons.info,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 15,
+                          ),
+                          Text(
+                            "Selecione o veiculo que será inspecionado",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: _onSubmit,
-                    child: Text("Continuar Inspeção"),
+                  Column(
+                    spacing: 10,
+                    children: [
+                      InputPadrao(
+                        label: "Quilometragem Atual (KM)",
+                        formState: _formState,
+                        nome: "quilometragemVeiculo",
+                        keyboardType: .number,
+                        validacao: Validators.validacaoDouble,
+                        onSubmit: _onSubmit,
+                        textInputAction: .done,
+                      ),
+                      Row(
+                        spacing: 5,
+                        children: [
+                          Icon(
+                            Icons.info,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 15,
+                          ),
+                          Text(
+                            "Informe a quilometragem exata do odômetro",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 12,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        width: 1,
+                      ),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      spacing: 15,
+                      children: [
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade50,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Icon(
+                                Icons.car_crash_rounded,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: .start,
+                              mainAxisAlignment: .center,
+                              children: [
+                                Text(
+                                  "Honda Civic 2020",
+                                  style: TextStyle(fontWeight: .bold),
+                                ),
+                                Text(
+                                  "ABC-1542",
+                                  style: TextStyle(fontWeight: .w300),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          spacing: 40,
+                          children: [
+                            Column(
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text(
+                                  "Ultima inspeção:",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "15/12/2023",
+                                  style: TextStyle(
+                                    fontWeight: .bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text(
+                                  "KM anterior:",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "42.350 KM",
+                                  style: TextStyle(
+                                    fontWeight: .bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: .infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _onSubmit,
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                        fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: .center,
+                        mainAxisAlignment: .center,
+                        spacing: 5,
+                        children: [
+                          Text(
+                            "Continuar Inspeção",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: .bold,
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey.shade400,
+                          thickness: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          "ou",
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey.shade400,
+                          thickness: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: .infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _onSubmit,
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                        fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: .center,
+                        mainAxisAlignment: .center,
+                        spacing: 5,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            "Cadastrar Novo Veículo",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: .bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

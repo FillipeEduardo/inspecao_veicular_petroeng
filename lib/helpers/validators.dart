@@ -14,4 +14,16 @@ class Validators {
 
     return null;
   }
+
+  static String? validacaoDouble(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Preencha um número válido.";
+    }
+
+    if (double.tryParse(value) == null) {
+      return "Número inválido.";
+    }
+
+    return null;
+  }
 }

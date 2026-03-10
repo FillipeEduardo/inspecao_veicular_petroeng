@@ -5,7 +5,7 @@ class InputPadrao extends StatefulWidget {
   final bool? ehSenha;
   final Widget? prefixIcon;
   final FormFieldValidator<String>? validacao;
-  final Map<String, String?> formState;
+  final Map<String, dynamic> formState;
   final String nome;
   final TextInputAction? textInputAction;
   final void Function()? onSubmit;
