@@ -9,6 +9,7 @@ class NovaVistoriaInicialPage extends StatefulWidget {
 }
 
 class _NovaVistoriaInicialPageState extends State<NovaVistoriaInicialPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +38,13 @@ class _NovaVistoriaInicialPageState extends State<NovaVistoriaInicialPage> {
           ),
         ],
       ),
-      body: Column(children: [
-       
-        ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(child: Column(children: [
+            
+          ],
+        )),
+        ),
       ),
     );
   }
