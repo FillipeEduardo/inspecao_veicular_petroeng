@@ -5,9 +5,7 @@ import 'package:inspecao_veicular_petroeng/providers/services/auth_interceptor.d
 import 'package:inspecao_veicular_petroeng/services/veiculo_service.dart';
 
 final veiculoServiceProvider = Provider<VeiculoService>((ref) {
-  final dio = Dio(
-    BaseOptions(baseUrl: String.fromEnvironment(Urls.apiBaseUrl)),
-  );
+  final dio = Dio(BaseOptions(baseUrl: Urls.apiBaseUrl));
   dio.interceptors.add(AuthInterceptor(ref));
   return VeiculoService(dio);
 });

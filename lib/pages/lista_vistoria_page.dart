@@ -195,9 +195,7 @@ class _VistoriaCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
       child: InkWell(
-        onTap: () {
-          // TODO: Navegar para detalhes da vistoria
-        },
+        onTap: () {},
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
