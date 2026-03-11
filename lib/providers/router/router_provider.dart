@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
+import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
+import 'package:inspecao_veicular_petroeng/pages/inspecao_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/nova_vistoria_inicial_page.dart';
@@ -30,6 +32,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.novaVistoriaInicial,
         builder: (_, _) => const NovaVistoriaInicialPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.inspecao,
+        builder: (_, state) {
+          final inspecao = state.extra as Inspecao;
+          return InspecaoPage(inspecao: inspecao);
+        },
       ),
     ],
   );

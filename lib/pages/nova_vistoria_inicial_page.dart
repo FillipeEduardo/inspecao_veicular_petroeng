@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/dropdown_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
+import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
+import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
@@ -29,7 +32,7 @@ class _NovaVistoriaInicialPageState
     super.initState();
   }
 
-  void _onSubmit(Veiculo? veiculoSelecionado) {
+  void _onSubmit(Veiculo? veiculoSelecionado, Inspecao? proximaInspecao) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       ref
@@ -42,6 +45,7 @@ class _NovaVistoriaInicialPageState
               veiculo: veiculoSelecionado,
             ),
           );
+      context.push(AppRoutes.inspecao, extra: proximaInspecao);
     }
   }
 
@@ -54,6 +58,10 @@ class _NovaVistoriaInicialPageState
             (veiculo) => _formState["veiculoId"] == veiculo.id,
           )
         : null;
+    final novaInspecao = ref.watch(novaVistoriaProvider);
+    final proximaInspecao = novaInspecao.value?.inspecoes?.firstWhere(
+      (inspecao) => inspecao.status.id == 1,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -138,7 +146,8 @@ class _NovaVistoriaInicialPageState
                         nome: "quilometragemVeiculo",
                         keyboardType: .number,
                         validacao: Validators.validacaoDouble,
-                        onSubmit: () => _onSubmit(veiculoSelecionado),
+                        onSubmit: () =>
+                            _onSubmit(veiculoSelecionado, proximaInspecao),
                         textInputAction: .done,
                       ),
                       Row(
@@ -266,7 +275,8 @@ class _NovaVistoriaInicialPageState
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ElevatedButton(
-                      onPressed: () => _onSubmit(veiculoSelecionado),
+                      onPressed: () =>
+                          _onSubmit(veiculoSelecionado, proximaInspecao),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           Colors.transparent,
@@ -327,7 +337,8 @@ class _NovaVistoriaInicialPageState
                       ),
                     ),
                     child: ElevatedButton(
-                      onPressed: () => _onSubmit(veiculoSelecionado),
+                      onPressed: () =>
+                          _onSubmit(veiculoSelecionado, proximaInspecao),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           Colors.transparent,
