@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
@@ -10,12 +11,27 @@ import 'package:inspecao_veicular_petroeng/pages/registro_fotografico_page.dart'
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_state.dart';
 
+class RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  RouterNotifier(this._ref) {
+    _ref.listen(authProvider, (_, _) => notifyListeners());
+  }
+
+  bool get isAuthenticated {
+    final authState = _ref.read(authProvider);
+    return authState.value?.status == AuthStatus.authenticated;
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authProvider);
+  final notifier = RouterNotifier(ref);
 
   return GoRouter(
     initialLocation: AppRoutes.listaVistoria,
+    refreshListenable: notifier,
     redirect: (context, state) {
+      final authState = ref.read(authProvider);
       final isAuthenticated =
           authState.value?.status == AuthStatus.authenticated;
 
