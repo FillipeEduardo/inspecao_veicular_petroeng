@@ -7,8 +7,8 @@ class NovaVistoriaNotifier extends Notifier<NovaVistoriaState> {
     return NovaVistoriaState.initial();
   }
 
-  void setState(NovaVistoriaState model) {
-    state = model;
+  void update(NovaVistoriaState Function(NovaVistoriaState current) change) {
+    state = change(state);
   }
 }
 

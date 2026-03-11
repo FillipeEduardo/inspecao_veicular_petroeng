@@ -6,7 +6,6 @@ import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:inspecao_veicular_petroeng/models/status_vistoria.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
-import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
 import 'package:intl/intl.dart';
 
 class NovaVistoriaInicialPage extends ConsumerStatefulWidget {
@@ -37,13 +36,17 @@ class _NovaVistoriaInicialPageState
           .watch(listaVeiculoProvider)
           .veiculos
           .firstWhere((veiculo) => veiculo.id == _formState["veiculoId"]);
-      final vistoria = NovaVistoriaState(
-        data: DateTime.now(),
-        quilometragemVeiculo: double.parse(_formState["quilometragemVeiculo"]),
-        status: StatusVistoria(id: 1, nome: "Em andamento"),
-        veiculo: veiculo,
-      );
-      ref.read(novaVistoriaProvider.notifier).setState(vistoria);
+      ref
+          .read(novaVistoriaProvider.notifier)
+          .update(
+            (novaVistoria) => novaVistoria.copyWith(
+              quilometragemVeiculo: double.parse(
+                _formState["quilometragemVeiculo"],
+              ),
+              status: StatusVistoria(id: 1, nome: "Em andamento"),
+              veiculo: veiculo,
+            ),
+          );
     }
   }
 
