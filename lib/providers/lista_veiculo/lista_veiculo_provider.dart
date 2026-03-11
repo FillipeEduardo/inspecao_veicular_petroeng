@@ -4,7 +4,7 @@ import 'package:inspecao_veicular_petroeng/providers/services/veiculo_service_pr
 import 'package:inspecao_veicular_petroeng/services/veiculo_service.dart';
 
 class ListaVeiculoNotifier extends Notifier<ListaVeiculoState> {
-  VeiculoService get _service => ref.watch(veiculoServiceProvider);
+  VeiculoService get _service => ref.read(veiculoServiceProvider);
   @override
   ListaVeiculoState build() {
     return ListaVeiculoState.initial();

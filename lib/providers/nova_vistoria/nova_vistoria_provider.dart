@@ -17,7 +17,7 @@ class NovaVistoriaNotifier extends AsyncNotifier<NovaVistoriaState> {
           .map(
             (item) => Inspecao(
               item: item,
-              status: StatusInspecao(id: 1, nome: "Em andamento"),
+              status: StatusInspecao(id: 0, nome: "Pendente"),
             ),
           )
           .toList(),

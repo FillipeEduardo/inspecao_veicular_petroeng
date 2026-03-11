@@ -10,6 +10,7 @@ class InputPadrao extends StatefulWidget {
   final TextInputAction? textInputAction;
   final void Function()? onSubmit;
   final TextInputType? keyboardType;
+  final int? maxLines;
 
   const InputPadrao({
     super.key,
@@ -22,6 +23,7 @@ class InputPadrao extends StatefulWidget {
     this.textInputAction,
     this.onSubmit,
     this.keyboardType,
+    this.maxLines = 1,
   });
 
   @override
@@ -45,6 +47,7 @@ class _InputPadraoState extends State<InputPadrao> {
       textInputAction: widget.textInputAction,
       onSaved: (value) => widget.formState[widget.nome] = value,
       keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines,
       onFieldSubmitted: widget.onSubmit != null
           ? (_) => widget.onSubmit!()
           : null,

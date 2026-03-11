@@ -7,6 +7,7 @@ import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_status_inspecao/lista_status_inspecao_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +29,7 @@ class _NovaVistoriaInicialPageState
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(listaVeiculoProvider.notifier).load();
+      ref.read(listaStatusInspecaoProvider.notifier).load();
     });
     super.initState();
   }
@@ -59,9 +61,7 @@ class _NovaVistoriaInicialPageState
           )
         : null;
     final novaInspecao = ref.watch(novaVistoriaProvider);
-    final proximaInspecao = novaInspecao.value?.inspecoes?.firstWhere(
-      (inspecao) => inspecao.status.id == 1,
-    );
+    final proximaInspecao = novaInspecao.value?.inspecoes?.first;
 
     return Scaffold(
       appBar: AppBar(

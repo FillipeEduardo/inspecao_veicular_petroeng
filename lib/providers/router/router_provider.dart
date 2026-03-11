@@ -6,6 +6,7 @@ import 'package:inspecao_veicular_petroeng/pages/inspecao_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/nova_vistoria_inicial_page.dart';
+import 'package:inspecao_veicular_petroeng/pages/registro_fotografico_page.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_state.dart';
 
@@ -39,6 +40,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           final inspecao = state.extra as Inspecao;
           return InspecaoPage(inspecao: inspecao);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.registroFotografico,
+        builder: (_, _) => const RegistroFotograficoPage(),
       ),
     ],
   );
