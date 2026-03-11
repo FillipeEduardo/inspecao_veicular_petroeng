@@ -3,7 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/components/dropdown_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
+import 'package:inspecao_veicular_petroeng/models/status_vistoria.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
+import 'package:intl/intl.dart';
 
 class NovaVistoriaInicialPage extends ConsumerStatefulWidget {
   const NovaVistoriaInicialPage({super.key});
@@ -29,6 +33,17 @@ class _NovaVistoriaInicialPageState
   void _onSubmit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      final veiculo = ref
+          .watch(listaVeiculoProvider)
+          .veiculos
+          .firstWhere((veiculo) => veiculo.id == _formState["veiculoId"]);
+      final vistoria = NovaVistoriaState(
+        data: DateTime.now(),
+        quilometragemVeiculo: double.parse(_formState["quilometragemVeiculo"]),
+        status: StatusVistoria(id: 1, nome: "Em andamento"),
+        veiculo: veiculo,
+      );
+      ref.read(novaVistoriaProvider.notifier).setState(vistoria);
     }
   }
 
@@ -36,6 +51,11 @@ class _NovaVistoriaInicialPageState
   Widget build(BuildContext context) {
     final listaVeiculosState = ref.watch(listaVeiculoProvider);
     final veiculos = listaVeiculosState.veiculos;
+    final veiculoSelecionado = _formState["veiculoId"] != null
+        ? veiculos.firstWhere(
+            (veiculo) => _formState["veiculoId"] == veiculo.id,
+          )
+        : null;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -86,6 +106,9 @@ class _NovaVistoriaInicialPageState
                             .toList(),
                         formState: _formState,
                         nome: "veiculoId",
+                        onChanged: (veiculoId) => setState(() {
+                          _formState["veiculoId"] = veiculoId;
+                        }),
                         validacao: (value) {
                           if (value == null) return "Selecione um veículo.";
                           return null;
@@ -135,95 +158,108 @@ class _NovaVistoriaInicialPageState
                       ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
-                          blurRadius: 12,
-                          offset: Offset(0, 4),
+                  if (veiculoSelecionado != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.08),
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                        border: Border.all(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          width: 1,
                         ),
-                      ],
-                      border: Border.all(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        width: 1,
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        spacing: 15,
+                        children: [
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey.shade50,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Icon(
+                                  Icons.car_crash_rounded,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: .start,
+                                mainAxisAlignment: .center,
+                                children: [
+                                  Text(
+                                    '${veiculoSelecionado.modelo} - ${veiculoSelecionado.ano}',
+                                    style: TextStyle(fontWeight: .bold),
+                                  ),
+                                  Text(
+                                    veiculoSelecionado.placa.toUpperCase(),
+                                    style: TextStyle(fontWeight: .w300),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            spacing: 40,
+                            children: [
+                              Column(
+                                crossAxisAlignment: .start,
+                                children: [
+                                  Text(
+                                    "Ultima inspeção:",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  Text(
+                                    veiculoSelecionado.ultimaVistoria?.data !=
+                                            null
+                                        ? DateFormat.yMEd().format(
+                                            veiculoSelecionado
+                                                .ultimaVistoria!
+                                                .data,
+                                          )
+                                        : "N/A",
+                                    style: TextStyle(
+                                      fontWeight: .bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: .start,
+                                children: [
+                                  Text(
+                                    "KM anterior:",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  Text(
+                                    veiculoSelecionado
+                                                .ultimaVistoria
+                                                ?.quilometragemVeiculo !=
+                                            null
+                                        ? '${veiculoSelecionado.ultimaVistoria!.quilometragemVeiculo} KM'
+                                        : "N/A",
+                                    style: TextStyle(
+                                      fontWeight: .bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      spacing: 15,
-                      children: [
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.blueGrey.shade50,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Icon(
-                                Icons.car_crash_rounded,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: .start,
-                              mainAxisAlignment: .center,
-                              children: [
-                                Text(
-                                  "Honda Civic 2020",
-                                  style: TextStyle(fontWeight: .bold),
-                                ),
-                                Text(
-                                  "ABC-1542",
-                                  style: TextStyle(fontWeight: .w300),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 40,
-                          children: [
-                            Column(
-                              crossAxisAlignment: .start,
-                              children: [
-                                Text(
-                                  "Ultima inspeção:",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  "15/12/2023",
-                                  style: TextStyle(
-                                    fontWeight: .bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: .start,
-                              children: [
-                                Text(
-                                  "KM anterior:",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  "42.350 KM",
-                                  style: TextStyle(
-                                    fontWeight: .bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     width: .infinity,
                     decoration: BoxDecoration(

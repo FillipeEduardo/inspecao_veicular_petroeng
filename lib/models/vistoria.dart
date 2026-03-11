@@ -4,7 +4,7 @@ import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 class Vistoria {
   int id;
   final DateTime data;
-  final int quilometragemVeiculo;
+  final double quilometragemVeiculo;
   String? observacao;
   final StatusVistoria status;
   final Veiculo veiculo;
