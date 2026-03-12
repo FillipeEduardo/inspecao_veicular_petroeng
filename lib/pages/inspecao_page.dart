@@ -47,8 +47,14 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
           (inspecao) => inspecao.status.id == 0,
         );
         context.push(AppRoutes.inspecao, extra: inspecaoPendente);
-      } else {
-        context.push(AppRoutes.registroFotografico);
+      } else if (novaVistoria.fotos!.any((foto) => foto.nomeArquivo.isEmpty)) {
+        final registroFotograficoPendente = novaVistoria.fotos!.firstWhere(
+          (foto) => foto.nomeArquivo.isEmpty,
+        );
+        context.push(
+          AppRoutes.registroFotografico,
+          extra: registroFotograficoPendente,
+        );
       }
     }
   }
@@ -90,8 +96,10 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: .center,
+            crossAxisAlignment: .center,
             children: [
               Text(
+                textAlign: .center,
                 widget.inspecao.item.nome,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
