@@ -32,13 +32,17 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: AppRoutes.listaVistoria,
     refreshListenable: notifier,
     redirect: (context, state) {
-      final authState = ref.read(authProvider);
-      final isAuthenticated =
-          authState.value?.status == AuthStatus.authenticated;
+      final authAsync = ref.read(authProvider);
 
-      if (!isAuthenticated && state.matchedLocation != AppRoutes.login) {
-        return AppRoutes.login;
-      }
+      if (authAsync.isLoading) return null;
+
+      final isAuthenticated =
+          authAsync.value?.status == AuthStatus.authenticated;
+      final isOnLogin = state.matchedLocation == AppRoutes.login;
+
+      if (!isAuthenticated && !isOnLogin) return AppRoutes.login;
+      if (isAuthenticated && isOnLogin) return AppRoutes.listaVistoria;
+
       return null;
     },
     routes: [
