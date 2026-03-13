@@ -4,4 +4,5 @@ class AppRoutes {
   static const novaVistoriaInicial = "/nova-vistoria-inicial";
   static const inspecao = "/inspecao";
   static const registroFotografico = "/registro-fotografico";
+  static const conclusaoVistoria = "/conclusao-vistoria";
 }

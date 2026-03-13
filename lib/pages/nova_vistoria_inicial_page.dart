@@ -63,6 +63,10 @@ class _NovaVistoriaInicialPageState
     final novaInspecao = ref.watch(novaVistoriaProvider);
     final proximaInspecao = novaInspecao.value?.inspecoes?.first;
 
+    if (listaVeiculosState.isLoadingMore) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
