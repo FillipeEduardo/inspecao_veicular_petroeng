@@ -61,4 +61,22 @@ class VistoriaService {
       return null;
     }
   }
+
+  Future<bool> criarFoto(
+    String pathFile,
+    int vistoriaId,
+    int evidenciaId,
+  ) async {
+    try {
+      final formData = FormData.fromMap({
+        "vistoriaId": vistoriaId,
+        "evidenciaId": evidenciaId,
+        "foto": await MultipartFile.fromFile(pathFile),
+      });
+      final response = await _dio.post("/foto", data: formData);
+      return response.statusCode == 200;
+    } catch (_) {
+      return false;
+    }
+  }
 }

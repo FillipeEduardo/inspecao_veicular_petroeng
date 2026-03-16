@@ -24,6 +24,11 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
       ref.read(novaVistoriaProvider.notifier).atualizar((state) {
         return state.copyWith(id: vistoriaId);
       });
+      novaVistoria.fotos?.forEach((foto) async {
+        await ref
+            .read(vistoriaServiceProvider)
+            .criarFoto(foto.file!.path, vistoriaId, foto.evidencia.id);
+      });
       if (!mounted) return;
       context.go(AppRoutes.listaVistoria);
     }
