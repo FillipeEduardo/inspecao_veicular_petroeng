@@ -55,6 +55,8 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
           AppRoutes.registroFotografico,
           extra: registroFotograficoPendente,
         );
+      } else {
+        context.go(AppRoutes.conclusaoVistoria);
       }
     }
   }

@@ -15,6 +15,7 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
   @override
   Widget build(BuildContext context) {
     final inspecoes = ref.watch(novaVistoriaProvider).value!.inspecoes!;
+    inspecoes.sort((a, b) => a.item.nome.compareTo(b.item.nome));
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
