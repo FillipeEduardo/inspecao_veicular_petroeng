@@ -212,28 +212,6 @@ class _VistoriaCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: vistoria.status.id == 1
-                          ? Colors.orange.shade100
-                          : Colors.green.shade100,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      vistoria.status.nome,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: vistoria.status.id == 1
-                            ? Colors.orange.shade900
-                            : Colors.green.shade900,
-                      ),
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(height: 8),

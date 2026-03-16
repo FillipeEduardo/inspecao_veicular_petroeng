@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
-import 'package:inspecao_veicular_petroeng/models/status_vistoria.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
+import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
 
 class VistoriaService {
-  Dio dio = Dio();
+  final Dio _dio;
+
+  VistoriaService(this._dio);
 
   Future<List<Vistoria>> obterVistoriasPorUsuario(
     int page,
@@ -24,13 +27,38 @@ class VistoriaService {
           placa: "fdf-5465",
         ),
         quilometragemVeiculo: 8000,
-        status: StatusVistoria(
-          id: statusId,
-          nome: statusId == 1 ? "Em andamento" : "Concluída",
-        ),
       );
       vistorias.add(vistoria);
     }
     return vistorias;
+  }
+
+  Future<int?> criar(NovaVistoriaState novaVistoria) async {
+    try {
+      final response = await _dio.post(
+        "/vistoria",
+        data: {
+          "data": novaVistoria.data.toUtc().toIso8601String(),
+          "quilometragemVeiculo": novaVistoria.quilometragemVeiculo,
+          "veiculoId": novaVistoria.veiculo.id,
+          "inspecoes":
+              novaVistoria.inspecoes?.map((inspecao) {
+                return {
+                  "observacao": inspecao.observacao,
+                  "statusId": inspecao.status.id,
+                  "itemId": inspecao.item.id,
+                };
+              }).toList() ??
+              [],
+        },
+      );
+      final result = SuccessApiResult.fromJson(
+        response.data,
+        (dados) => dados as int,
+      );
+      return result.dados;
+    } catch (_) {
+      return null;
+    }
   }
 }

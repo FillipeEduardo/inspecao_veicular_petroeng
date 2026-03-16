@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/inspecao_card.dart';
+import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
+import 'package:inspecao_veicular_petroeng/providers/services/vistoria_service_provider.dart';
 
 class ConclusaoVistoriaPage extends ConsumerStatefulWidget {
   const ConclusaoVistoriaPage({super.key});
@@ -12,6 +15,20 @@ class ConclusaoVistoriaPage extends ConsumerStatefulWidget {
 }
 
 class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
+  Future<void> _salvarNovaVistoria() async {
+    final novaVistoria = ref.read(novaVistoriaProvider).value!;
+    final vistoriaId = await ref
+        .read(vistoriaServiceProvider)
+        .criar(novaVistoria);
+    if (vistoriaId != null) {
+      ref.read(novaVistoriaProvider.notifier).atualizar((state) {
+        return state.copyWith(id: vistoriaId);
+      });
+      if (!mounted) return;
+      context.go(AppRoutes.listaVistoria);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final inspecoes = ref.watch(novaVistoriaProvider).value!.inspecoes!;
@@ -35,9 +52,12 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(12),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.primary,
+            child: InkWell(
+              onTap: _salvarNovaVistoria,
+              child: Icon(
+                Icons.save,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
         ],
