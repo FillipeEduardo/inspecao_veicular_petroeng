@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
+import 'package:inspecao_veicular_petroeng/components/inspecao_card.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
 
 class ConclusaoVistoriaPage extends ConsumerStatefulWidget {
@@ -49,21 +49,11 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
                   padding: const EdgeInsets.all(16),
                   itemCount: inspecoes.length,
                   itemBuilder: (context, index) {
-                    return _InspecaoCard(inspecao: inspecoes[index]);
+                    return InspecaoCard(inspecao: inspecoes[index]);
                   },
                 ),
         ),
       ),
     );
-  }
-}
-
-class _InspecaoCard extends StatelessWidget {
-  final Inspecao inspecao;
-  const _InspecaoCard({required this.inspecao});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
