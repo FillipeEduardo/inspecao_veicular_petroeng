@@ -11,19 +11,25 @@ class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
     return ListaVistoriaState.initial();
   }
 
-  Future<void> loadVistorias({int statusId = 1}) async {
+  Future<void> loadVistorias() async {
     try {
-      state = ListaVistoriaState.initial(statusId: statusId);
+      state = ListaVistoriaState.initial();
+      state = state.copyWith(isLoading: true);
 
-      final vistorias = await _service.obterVistoriasPorUsuario(1, statusId);
+      final listResultVistoria = await _service.obterVistoriasPorUsuario(1);
+
+      if (listResultVistoria == null) return;
 
       state = state.copyWith(
-        vistorias: vistorias,
+        vistorias: listResultVistoria.dados.registros,
         currentPage: 1,
-        hasMore: vistorias.length >= 10,
+        hasMore:
+            listResultVistoria.dados.registros.length >
+            listResultVistoria.dados.totalDeRegistros,
+        isLoading: false,
       );
     } catch (e) {
-      state = ListaVistoriaState.initial(statusId: statusId);
+      state = ListaVistoriaState.initial();
       rethrow;
     }
   }
@@ -35,26 +41,29 @@ class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
       state = state.copyWith(isLoadingMore: true);
 
       final nextPage = state.currentPage + 1;
-      final novasVistorias = await _service.obterVistoriasPorUsuario(
+      final listResultVistoria = await _service.obterVistoriasPorUsuario(
         nextPage,
-        state.statusId,
       );
 
+      if (listResultVistoria == null) {
+        state = state.copyWith(isLoadingMore: false);
+        return;
+      }
+
+      final hasMore =
+          state.vistorias.length + listResultVistoria.dados.registros.length <
+          listResultVistoria.dados.totalDeRegistros;
+
       state = state.copyWith(
-        vistorias: [...state.vistorias, ...novasVistorias],
+        vistorias: [...state.vistorias, ...listResultVistoria.dados.registros],
         currentPage: nextPage,
-        hasMore: novasVistorias.length >= 10,
+        hasMore: hasMore,
         isLoadingMore: false,
       );
     } catch (e) {
       state = state.copyWith(isLoadingMore: false);
       rethrow;
     }
-  }
-
-  Future<void> changeStatusFilter(int statusId) async {
-    if (state.statusId == statusId) return;
-    await loadVistorias(statusId: statusId);
   }
 }
 

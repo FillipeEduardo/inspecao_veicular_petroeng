@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:inspecao_veicular_petroeng/models/list_result.dart';
 import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
-import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
 
 class VistoriaService {
@@ -9,28 +9,21 @@ class VistoriaService {
 
   VistoriaService(this._dio);
 
-  Future<List<Vistoria>> obterVistoriasPorUsuario(
-    int page,
-    int statusId,
-  ) async {
-    await Future.delayed(Duration(seconds: 1));
-    List<Vistoria> vistorias = [];
-
-    for (var i = 1; i <= 10; i++) {
-      var vistoria = Vistoria(
-        id: i,
-        data: DateTime.now().toUtc().toIso8601String(),
-        veiculo: Veiculo(
-          ano: 2025,
-          id: 1,
-          modelo: "Fiat argo",
-          placa: "fdf-5465",
-        ),
-        quilometragemVeiculo: 8000,
+  Future<ListResult<Vistoria>?> obterVistoriasPorUsuario(int pagina) async {
+    try {
+      final response = await _dio.get(
+        "/vistoria",
+        queryParameters: {"Pagina": pagina},
       );
-      vistorias.add(vistoria);
+      final result = ListResult.fromJson(response.data, (dados) {
+        return (dados as List)
+            .map((vistoria) => Vistoria.fromJson(vistoria))
+            .toList();
+      });
+      return result;
+    } catch (ex) {
+      return null;
     }
-    return vistorias;
   }
 
   Future<int?> criar(NovaVistoriaState novaVistoria) async {

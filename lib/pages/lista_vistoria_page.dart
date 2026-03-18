@@ -20,7 +20,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(listaVistoriaProvider.notifier).loadVistorias(statusId: 1);
+      ref.read(listaVistoriaProvider.notifier).loadVistorias();
     });
     _scrollController.addListener(_onScroll);
   }
@@ -76,88 +76,11 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
-                ),
-              ),
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(listaVistoriaProvider.notifier)
-                            .changeStatusFilter(1);
-                      },
-                      style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        fixedSize: const WidgetStatePropertyAll(
-                          Size.fromHeight(40),
-                        ),
-                        backgroundColor: WidgetStatePropertyAll(
-                          state.statusId == 1
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey.shade200,
-                        ),
-                      ),
-                      child: Text(
-                        "Em andamento",
-                        style: TextStyle(
-                          color: state.statusId == 1
-                              ? Colors.white
-                              : Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(listaVistoriaProvider.notifier)
-                            .changeStatusFilter(2);
-                      },
-                      style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        fixedSize: const WidgetStatePropertyAll(
-                          Size.fromHeight(40),
-                        ),
-                        backgroundColor: WidgetStatePropertyAll(
-                          state.statusId == 2
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey.shade200,
-                        ),
-                      ),
-                      child: Text(
-                        "Concluídas",
-                        style: TextStyle(
-                          color: state.statusId == 2
-                              ? Colors.white
-                              : Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             Expanded(
-              child: state.vistorias.isEmpty
+              child: state.isLoading
                   ? const Center(child: CircularProgressIndicator())
+                  : state.vistorias.isEmpty
+                  ? Center(child: Text('Você ainda não fez nenhuma vistoria.'))
                   : ListView.builder(
                       controller: _scrollController,
                       padding: const EdgeInsets.all(16),

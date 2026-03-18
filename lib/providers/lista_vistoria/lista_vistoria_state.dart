@@ -5,23 +5,23 @@ class ListaVistoriaState {
   final int currentPage;
   final bool hasMore;
   final bool isLoadingMore;
-  final int statusId;
+  final bool isLoading;
 
   ListaVistoriaState({
     required this.vistorias,
     required this.currentPage,
     required this.hasMore,
     required this.isLoadingMore,
-    required this.statusId,
+    required this.isLoading,
   });
 
-  factory ListaVistoriaState.initial({int statusId = 1}) {
+  factory ListaVistoriaState.initial() {
     return ListaVistoriaState(
       vistorias: [],
       currentPage: 1,
       hasMore: true,
       isLoadingMore: false,
-      statusId: statusId,
+      isLoading: false,
     );
   }
 
@@ -31,13 +31,14 @@ class ListaVistoriaState {
     bool? hasMore,
     bool? isLoadingMore,
     int? statusId,
+    bool? isLoading,
   }) {
     return ListaVistoriaState(
       vistorias: vistorias ?? this.vistorias,
       currentPage: currentPage ?? this.currentPage,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      statusId: statusId ?? this.statusId,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }
