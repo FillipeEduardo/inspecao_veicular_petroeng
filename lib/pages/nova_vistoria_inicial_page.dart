@@ -5,7 +5,6 @@ import 'package:inspecao_veicular_petroeng/components/dropdown_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
-import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_status_inspecao/lista_status_inspecao_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
@@ -34,7 +33,7 @@ class _NovaVistoriaInicialPageState
     super.initState();
   }
 
-  void _onSubmit(Veiculo? veiculoSelecionado, Inspecao? proximaInspecao) {
+  void _onSubmit(Veiculo? veiculoSelecionado) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       ref
@@ -47,6 +46,8 @@ class _NovaVistoriaInicialPageState
               veiculo: veiculoSelecionado,
             ),
           );
+      final novaInspecao = ref.read(novaVistoriaProvider);
+      final proximaInspecao = novaInspecao.value?.inspecoes?.first;
       context.push(AppRoutes.inspecao, extra: proximaInspecao);
     }
   }
@@ -60,8 +61,6 @@ class _NovaVistoriaInicialPageState
             (veiculo) => _formState["veiculoId"] == veiculo.id,
           )
         : null;
-    final novaInspecao = ref.watch(novaVistoriaProvider);
-    final proximaInspecao = novaInspecao.value?.inspecoes?.first;
 
     if (listaVeiculosState.isLoadingMore) {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -150,8 +149,7 @@ class _NovaVistoriaInicialPageState
                         nome: "quilometragemVeiculo",
                         keyboardType: .number,
                         validacao: Validators.validacaoDouble,
-                        onSubmit: () =>
-                            _onSubmit(veiculoSelecionado, proximaInspecao),
+                        onSubmit: () => _onSubmit(veiculoSelecionado),
                         textInputAction: .done,
                       ),
                       Row(
@@ -233,10 +231,12 @@ class _NovaVistoriaInicialPageState
                                   Text(
                                     veiculoSelecionado.ultimaVistoria?.data !=
                                             null
-                                        ? DateFormat.yMEd().format(
-                                            veiculoSelecionado
-                                                .ultimaVistoria!
-                                                .data,
+                                        ? DateFormat.yMMMEd().format(
+                                            DateTime.parse(
+                                              veiculoSelecionado
+                                                  .ultimaVistoria!
+                                                  .data,
+                                            ),
                                           )
                                         : "N/A",
                                     style: TextStyle(
@@ -279,8 +279,7 @@ class _NovaVistoriaInicialPageState
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ElevatedButton(
-                      onPressed: () =>
-                          _onSubmit(veiculoSelecionado, proximaInspecao),
+                      onPressed: () => _onSubmit(veiculoSelecionado),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           Colors.transparent,
@@ -341,8 +340,7 @@ class _NovaVistoriaInicialPageState
                       ),
                     ),
                     child: ElevatedButton(
-                      onPressed: () =>
-                          _onSubmit(veiculoSelecionado, proximaInspecao),
+                      onPressed: () => _onSubmit(veiculoSelecionado),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           Colors.transparent,

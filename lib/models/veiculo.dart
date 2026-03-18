@@ -21,7 +21,7 @@ class Veiculo {
       id: json["id"],
       modelo: json["modelo"],
       placa: json["placa"],
-      ultimaVistoria: json["ultimaVistoria"],
+      ultimaVistoria: Vistoria.fromJson(json["ultimaVistoria"]),
     );
   }
 }

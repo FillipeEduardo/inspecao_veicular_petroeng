@@ -19,7 +19,7 @@ class VistoriaService {
     for (var i = 1; i <= 10; i++) {
       var vistoria = Vistoria(
         id: i,
-        data: DateTime.now(),
+        data: DateTime.now().toUtc().toIso8601String(),
         veiculo: Veiculo(
           ano: 2025,
           id: 1,

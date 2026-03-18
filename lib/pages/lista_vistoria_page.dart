@@ -206,7 +206,7 @@ class _VistoriaCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    vistoria.veiculo.modelo,
+                    vistoria.veiculo?.modelo ?? "",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -220,7 +220,7 @@ class _VistoriaCard extends StatelessWidget {
                   Icon(Icons.drive_eta, size: 16, color: Colors.grey.shade600),
                   const SizedBox(width: 4),
                   Text(
-                    vistoria.veiculo.placa.toUpperCase(),
+                    vistoria.veiculo?.placa.toUpperCase() ?? "",
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                   const SizedBox(width: 16),
@@ -231,7 +231,7 @@ class _VistoriaCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${vistoria.veiculo.ano}',
+                    '${vistoria.veiculo?.ano}',
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                 ],
@@ -246,7 +246,7 @@ class _VistoriaCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    DateFormat('dd/MM/yyyy - HH:mm').format(vistoria.data),
+                    DateFormat.yMMMEd().format(DateTime.parse(vistoria.data)),
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                 ],
