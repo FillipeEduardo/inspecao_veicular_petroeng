@@ -33,23 +33,30 @@ class _NovaVistoriaInicialPageState
     super.initState();
   }
 
-  void _onSubmit(Veiculo? veiculoSelecionado) {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      ref
-          .read(novaVistoriaProvider.notifier)
-          .atualizar(
-            (novaVistoria) => novaVistoria.copyWith(
-              quilometragemVeiculo: double.parse(
-                _formState["quilometragemVeiculo"],
-              ),
-              veiculo: veiculoSelecionado,
+  Future<void> _onSubmit(Veiculo? veiculoSelecionado) async {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+    await ref.read(novaVistoriaProvider.future);
+
+    ref
+        .read(novaVistoriaProvider.notifier)
+        .atualizar(
+          (novaVistoria) => novaVistoria.copyWith(
+            quilometragemVeiculo: double.parse(
+              _formState["quilometragemVeiculo"],
             ),
-          );
-      final novaInspecao = ref.read(novaVistoriaProvider);
-      final proximaInspecao = novaInspecao.value?.inspecoes?.first;
-      context.push(AppRoutes.inspecao, extra: proximaInspecao);
-    }
+            veiculo: veiculoSelecionado,
+          ),
+        );
+
+    final atualizado = ref.read(novaVistoriaProvider).value;
+    final inspecoes = atualizado?.inspecoes;
+
+    if (inspecoes == null || inspecoes.isEmpty) return;
+    final proximaInspecao = inspecoes.first;
+
+    if (!mounted) return;
+    context.push(AppRoutes.inspecao, extra: proximaInspecao);
   }
 
   @override
