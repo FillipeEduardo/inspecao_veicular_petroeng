@@ -29,6 +29,7 @@ class _NovaVistoriaInicialPageState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(listaVeiculoProvider.notifier).load();
       ref.read(listaStatusInspecaoProvider.notifier).load();
+      final _ = ref.refresh(novaVistoriaProvider);
     });
     super.initState();
   }
