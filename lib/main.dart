@@ -34,6 +34,9 @@ class MyApp extends ConsumerWidget {
           primary: Color(0xFF1E3A8A),
           secondary: Color(0xFFF97316),
         ),
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Color(0xFF1E3A8A)),
+        ),
       ),
       routerConfig: router,
     );
