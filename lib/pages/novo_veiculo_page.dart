@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/main_app_bar.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
+import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
 import 'package:inspecao_veicular_petroeng/providers/services/veiculo_service_provider.dart';
 
 class NovoVeiculoPage extends ConsumerStatefulWidget {
@@ -24,6 +25,7 @@ class _NovoVeiculoPageState extends ConsumerState<NovoVeiculoPage> {
           .read(veiculoServiceProvider)
           .criar(_formState);
       if (veiculoId != null) {
+        await ref.read(listaVeiculoProvider.notifier).load();
         if (!mounted) return;
         context.pop();
       }

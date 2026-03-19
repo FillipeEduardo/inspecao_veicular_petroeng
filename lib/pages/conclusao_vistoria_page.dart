@@ -15,7 +15,11 @@ class ConclusaoVistoriaPage extends ConsumerStatefulWidget {
 }
 
 class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
+  bool isLoading = false;
   Future<void> _salvarNovaVistoria() async {
+    setState(() {
+      isLoading = true;
+    });
     final novaVistoria = ref.read(novaVistoriaProvider).value!;
     final vistoriaId = await ref
         .read(vistoriaServiceProvider)
@@ -29,6 +33,9 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
             .read(vistoriaServiceProvider)
             .criarFoto(foto.file!.path, vistoriaId, foto.evidencia.id);
       });
+      setState(() {
+        isLoading = false;
+      });
       if (!mounted) return;
       context.go(AppRoutes.listaVistoria);
     }
@@ -38,6 +45,12 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
   Widget build(BuildContext context) {
     final inspecoes = ref.watch(novaVistoriaProvider).value!.inspecoes!;
     inspecoes.sort((a, b) => a.item.nome.compareTo(b.item.nome));
+
+    if (isLoading) {
+      return Scaffold(
+        body: SafeArea(child: Center(child: CircularProgressIndicator())),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,

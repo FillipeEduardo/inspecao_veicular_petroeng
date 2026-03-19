@@ -347,23 +347,34 @@ class _NovaVistoriaInicialPageState
                         shadowColor: WidgetStatePropertyAll(Colors.transparent),
                         fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
                       ),
-                      child: Row(
-                        crossAxisAlignment: .center,
-                        mainAxisAlignment: .center,
-                        spacing: 5,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Theme.of(context).colorScheme.primary,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            Colors.transparent,
                           ),
-                          Text(
-                            "Cadastrar Novo Veículo",
-                            style: TextStyle(
+                          shadowColor: WidgetStatePropertyAll(
+                            Colors.transparent,
+                          ),
+                        ),
+                        onPressed: () => context.push(AppRoutes.novoVeiculo),
+                        child: Row(
+                          crossAxisAlignment: .center,
+                          mainAxisAlignment: .center,
+                          spacing: 5,
+                          children: [
+                            Icon(
+                              Icons.add,
                               color: Theme.of(context).colorScheme.primary,
-                              fontWeight: .bold,
                             ),
-                          ),
-                        ],
+                            Text(
+                              "Cadastrar Novo Veículo",
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: .bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
