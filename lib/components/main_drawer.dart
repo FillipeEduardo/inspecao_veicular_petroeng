@@ -35,7 +35,7 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: null,
+            onTap: () => context.go(AppRoutes.novoVeiculo),
             leading: Icon(
               Icons.drive_eta,
               color: Theme.of(context).colorScheme.primary,
