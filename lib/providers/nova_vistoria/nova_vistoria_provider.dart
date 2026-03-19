@@ -22,10 +22,7 @@ class NovaVistoriaNotifier extends AsyncNotifier<NovaVistoriaState> {
           )
           .toList(),
       fotos: evidencias
-          .map(
-            (evidencia) =>
-                Foto(nomeArquivo: "", extensao: "", evidencia: evidencia),
-          )
+          .map((evidencia) => Foto(extensao: "", evidencia: evidencia))
           .toList(),
     );
 

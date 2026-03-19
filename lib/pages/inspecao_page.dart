@@ -11,8 +11,8 @@ import 'package:inspecao_veicular_petroeng/providers/lista_status_inspecao/lista
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
 
 class InspecaoPage extends ConsumerStatefulWidget {
-  final Inspecao inspecao;
-  const InspecaoPage({super.key, required this.inspecao});
+  final num itemId;
+  const InspecaoPage({super.key, required this.itemId});
 
   @override
   ConsumerState<InspecaoPage> createState() => _InspecaoPageState();
@@ -21,18 +21,30 @@ class InspecaoPage extends ConsumerStatefulWidget {
 class _InspecaoPageState extends ConsumerState<InspecaoPage> {
   final _formKey = GlobalKey<FormState>();
   final _formState = <String, dynamic>{};
+  Inspecao? inspecao;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final novaVistoriaState = ref.read(novaVistoriaProvider).value;
+      if (novaVistoriaState?.inspecoes?.isNotEmpty == true) {
+        inspecao = novaVistoriaState!.inspecoes!.firstWhere(
+          (i) => i.item.id == widget.itemId,
+        );
+      }
+    });
+    super.initState();
+  }
 
   void _onSubmit(ListaStatusInspecaoState listaStatusInspecaoState) {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && inspecao != null) {
       _formKey.currentState!.save();
 
       ref.read(novaVistoriaProvider.notifier).atualizar((novaVistoria) {
         final inspecoes = novaVistoria.inspecoes!;
-        inspecoes.removeWhere(
-          (inspecao) => inspecao.item.id == widget.inspecao.item.id,
-        );
+        inspecoes.removeWhere((inspecao) => inspecao.item.id == widget.itemId);
         final novaInspecao = Inspecao(
-          item: widget.inspecao.item,
+          item: inspecao!.item,
           status: listaStatusInspecaoState.statusInspecao.firstWhere(
             (statusInspecao) =>
                 statusInspecao.id == _formState["statusInspecaoId"],
@@ -47,14 +59,14 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
         final inspecaoPendente = novaVistoria.inspecoes!.firstWhere(
           (inspecao) => inspecao.status.id == 0,
         );
-        context.push(AppRoutes.inspecao, extra: inspecaoPendente);
-      } else if (novaVistoria.fotos!.any((foto) => foto.nomeArquivo.isEmpty)) {
+        context.push(AppRoutes.inspecao, extra: inspecaoPendente.item.id);
+      } else if (novaVistoria.fotos!.any((foto) => foto.extensao.isEmpty)) {
         final registroFotograficoPendente = novaVistoria.fotos!.firstWhere(
-          (foto) => foto.nomeArquivo.isEmpty,
+          (foto) => foto.extensao.isEmpty,
         );
         context.push(
           AppRoutes.registroFotografico,
-          extra: registroFotograficoPendente,
+          extra: registroFotograficoPendente.evidencia.id,
         );
       } else {
         context.go(AppRoutes.conclusaoVistoria);
@@ -79,7 +91,7 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
             children: [
               Text(
                 textAlign: .center,
-                widget.inspecao.item.nome,
+                inspecao?.item.nome ?? "",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: .bold,

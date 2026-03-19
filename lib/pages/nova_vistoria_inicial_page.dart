@@ -57,7 +57,7 @@ class _NovaVistoriaInicialPageState
     final proximaInspecao = inspecoes.first;
 
     if (!mounted) return;
-    context.push(AppRoutes.inspecao, extra: proximaInspecao);
+    context.push(AppRoutes.inspecao, extra: proximaInspecao.item.id);
   }
 
   @override

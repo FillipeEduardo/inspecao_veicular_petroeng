@@ -10,7 +10,7 @@ class InspecaoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go(AppRoutes.inspecao, extra: inspecao),
+      onTap: () => context.go(AppRoutes.inspecao, extra: inspecao.item.id),
       child: Card(
         margin: const EdgeInsets.only(bottom: 12),
         elevation: 2,

@@ -9,8 +9,8 @@ import 'package:inspecao_veicular_petroeng/models/foto.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
 
 class RegistroFotograficoPage extends ConsumerStatefulWidget {
-  final Foto foto;
-  const RegistroFotograficoPage({super.key, required this.foto});
+  final num evidenciaId;
+  const RegistroFotograficoPage({super.key, required this.evidenciaId});
 
   @override
   ConsumerState<RegistroFotograficoPage> createState() =>
@@ -20,6 +20,20 @@ class RegistroFotograficoPage extends ConsumerStatefulWidget {
 class _RegistroFotograficoPageState
     extends ConsumerState<RegistroFotograficoPage> {
   XFile? imagem;
+  Foto? foto;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final novaVistoriaState = ref.read(novaVistoriaProvider).value;
+      if (novaVistoriaState?.fotos?.isNotEmpty == true) {
+        foto = novaVistoriaState!.fotos!.firstWhere(
+          (f) => f.evidencia.id == widget.evidenciaId,
+        );
+      }
+    });
+    super.initState();
+  }
 
   Future<void> _tirarFoto() async {
     final imagePicker = ImagePicker();
@@ -34,15 +48,14 @@ class _RegistroFotograficoPageState
   }
 
   void _onSubmit() {
-    if (imagem != null) {
+    if (imagem != null && foto != null) {
       ref.read(novaVistoriaProvider.notifier).atualizar((novaVistoria) {
         final fotos = novaVistoria.fotos!;
-        fotos.removeWhere((x) => x.evidencia.id == widget.foto.evidencia.id);
+        fotos.removeWhere((x) => x.evidencia.id == widget.evidenciaId);
         fotos.add(
           Foto(
-            nomeArquivo: imagem!.name,
             extensao: path.extension(imagem!.name),
-            evidencia: widget.foto.evidencia,
+            evidencia: foto!.evidencia,
             file: imagem,
           ),
         );
@@ -53,7 +66,10 @@ class _RegistroFotograficoPageState
         final fotoPendente = novaVistoriaState.fotos!.firstWhere(
           (x) => x.extensao.isEmpty,
         );
-        context.push(AppRoutes.registroFotografico, extra: fotoPendente);
+        context.push(
+          AppRoutes.registroFotografico,
+          extra: fotoPendente.evidencia.id,
+        );
       } else {
         context.go(AppRoutes.conclusaoVistoria);
       }
@@ -100,7 +116,7 @@ class _RegistroFotograficoPageState
             children: [
               SizedBox(height: alturaSafe * 0.02),
               Text(
-                widget.foto.evidencia.nome,
+                foto?.evidencia.nome ?? "",
                 textAlign: .center,
                 style: TextStyle(
                   fontWeight: .bold,

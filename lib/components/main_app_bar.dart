@@ -21,12 +21,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 2,
         ),
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: Icon(Icons.menu, color: Theme.of(context).colorScheme.primary),
-        ),
-      ],
     );
   }
 
