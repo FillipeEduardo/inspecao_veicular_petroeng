@@ -28,9 +28,11 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final novaVistoriaState = ref.read(novaVistoriaProvider).value;
       if (novaVistoriaState?.inspecoes?.isNotEmpty == true) {
-        inspecao = novaVistoriaState!.inspecoes!.firstWhere(
-          (i) => i.item.id == widget.itemId,
-        );
+        setState(() {
+          inspecao = novaVistoriaState!.inspecoes!.firstWhere(
+            (i) => i.item.id == widget.itemId,
+          );
+        });
       }
     });
     super.initState();

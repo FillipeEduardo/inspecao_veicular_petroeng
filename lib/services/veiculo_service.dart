@@ -19,4 +19,17 @@ class VeiculoService {
       return null;
     }
   }
+
+  Future<num?> criar(Map<String, dynamic> veiculo) async {
+    try {
+      final response = await _dio.post("/veiculo", data: veiculo);
+      final result = SuccessApiResult.fromJson(
+        response.data,
+        (dados) => dados as num,
+      );
+      return result.dados;
+    } catch (_) {
+      return null;
+    }
+  }
 }

@@ -27,9 +27,11 @@ class _RegistroFotograficoPageState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final novaVistoriaState = ref.read(novaVistoriaProvider).value;
       if (novaVistoriaState?.fotos?.isNotEmpty == true) {
-        foto = novaVistoriaState!.fotos!.firstWhere(
-          (f) => f.evidencia.id == widget.evidenciaId,
-        );
+        setState(() {
+          foto = novaVistoriaState!.fotos!.firstWhere(
+            (f) => f.evidencia.id == widget.evidenciaId,
+          );
+        });
       }
     });
     super.initState();

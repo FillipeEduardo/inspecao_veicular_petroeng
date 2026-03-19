@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/main_app_bar.dart';
-import 'package:inspecao_veicular_petroeng/components/main_drawer.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
+import 'package:inspecao_veicular_petroeng/providers/services/veiculo_service_provider.dart';
 
-class NovoVeiculoPage extends StatefulWidget {
+class NovoVeiculoPage extends ConsumerStatefulWidget {
   const NovoVeiculoPage({super.key});
 
   @override
-  State<NovoVeiculoPage> createState() => _NovoVeiculoPageState();
+  ConsumerState<NovoVeiculoPage> createState() => _NovoVeiculoPageState();
 }
 
-class _NovoVeiculoPageState extends State<NovoVeiculoPage> {
+class _NovoVeiculoPageState extends ConsumerState<NovoVeiculoPage> {
   final _formKey = GlobalKey<FormState>();
-  final _formState = <String, String?>{};
+  final _formState = <String, dynamic>{};
 
-  void _onSubmit() {
+  Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      final veiculoId = await ref
+          .read(veiculoServiceProvider)
+          .criar(_formState);
+      if (veiculoId != null) {
+        if (!mounted) return;
+        context.pop();
+      }
     }
   }
 
@@ -26,7 +35,6 @@ class _NovoVeiculoPageState extends State<NovoVeiculoPage> {
     final mq = MediaQuery.of(context);
     final alturaSafe = mq.size.height - mq.padding.top - mq.padding.bottom;
     return Scaffold(
-      drawer: MainDrawer(),
       appBar: MainAppBar(titulo: "Cadastrar Veiculo"),
       body: SafeArea(
         child: SingleChildScrollView(
