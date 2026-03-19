@@ -68,7 +68,6 @@ class _DropdownPadraoState extends State<DropdownPadrao> {
   }
 
   Future<int?> _abrirSelecao(BuildContext context) async {
-    final buscaController = TextEditingController();
     String termoBusca = '';
 
     final valor = await showModalBottomSheet<int>(
@@ -97,7 +96,6 @@ class _DropdownPadraoState extends State<DropdownPadrao> {
                 child: Column(
                   children: [
                     TextField(
-                      controller: buscaController,
                       decoration: InputDecoration(
                         hintText: widget.textoBusca,
                         prefixIcon: const Icon(Icons.search),
@@ -143,7 +141,6 @@ class _DropdownPadraoState extends State<DropdownPadrao> {
       },
     );
 
-    buscaController.dispose();
     return valor;
   }
 
