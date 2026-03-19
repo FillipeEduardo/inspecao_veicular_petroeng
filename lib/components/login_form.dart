@@ -31,7 +31,15 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         await ref.read(authProvider.notifier).login(token);
         if (!mounted) return;
         context.go(AppRoutes.listaVistoria);
-      } else {}
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Credenciais inválidas'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
     if (mounted) {
       setState(() => isLoading = false);

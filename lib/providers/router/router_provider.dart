@@ -29,7 +29,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   final notifier = RouterNotifier(ref);
 
   return GoRouter(
-    initialLocation: AppRoutes.listaVistoria,
+    initialLocation: AppRoutes.login,
     refreshListenable: notifier,
     redirect: (context, state) {
       final authAsync = ref.read(authProvider);
