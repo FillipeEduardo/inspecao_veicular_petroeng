@@ -9,6 +9,7 @@ import 'package:inspecao_veicular_petroeng/pages/inspecao_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/login_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/nova_vistoria_inicial_page.dart';
+import 'package:inspecao_veicular_petroeng/pages/novo_veiculo_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/registro_fotografico_page.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_state.dart';
@@ -73,6 +74,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.conclusaoVistoria,
         builder: (_, _) => const ConclusaoVistoriaPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.novoVeiculo,
+        builder: (_, _) => const NovoVeiculoPage(),
       ),
     ],
   );

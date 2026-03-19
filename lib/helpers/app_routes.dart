@@ -5,4 +5,5 @@ class AppRoutes {
   static const inspecao = "/inspecao";
   static const registroFotografico = "/registro-fotografico";
   static const conclusaoVistoria = "/conclusao-vistoria";
+  static const novoVeiculo = "/novo-veiculo";
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/dropdown_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
+import 'package:inspecao_veicular_petroeng/components/main_app_bar.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_status_inspecao/lista_status_inspecao_provider.dart';
@@ -67,31 +68,7 @@ class _InspecaoPageState extends ConsumerState<InspecaoPage> {
     final mq = MediaQuery.of(context);
     final alturaSafe = mq.size.height - mq.padding.top - mq.padding.bottom;
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 80,
-        title: Text(
-          "Inspeção",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        shape: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ],
-      ),
+      appBar: MainAppBar(titulo: "Inspeção"),
       body: SingleChildScrollView(
         child: Container(
           height: alturaSafe * 0.9,

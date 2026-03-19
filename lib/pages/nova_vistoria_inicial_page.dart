@@ -90,15 +90,6 @@ class _NovaVistoriaInicialPageState
             width: 2,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ],
       ),
       body: Center(
         child: SingleChildScrollView(

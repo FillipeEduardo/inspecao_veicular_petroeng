@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:inspecao_veicular_petroeng/components/main_drawer.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_vistoria/lista_vistoria_provider.dart';
@@ -43,6 +44,7 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
     final state = ref.watch(listaVistoriaProvider);
 
     return Scaffold(
+      drawer: MainDrawer(),
       appBar: AppBar(
         toolbarHeight: 80,
         title: Text(
@@ -58,15 +60,6 @@ class _ListaVistoriaPageState extends ConsumerState<ListaVistoriaPage> {
             width: 2,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push(AppRoutes.novaVistoriaInicial),
