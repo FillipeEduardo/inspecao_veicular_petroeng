@@ -51,8 +51,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     return Form(
       key: _formKey,
       child: Column(
-        mainAxisAlignment: .spaceBetween,
         crossAxisAlignment: .center,
+        mainAxisAlignment: .center,
+        spacing: 20,
         mainAxisSize: .max,
         children: [
           InputPadrao(
@@ -122,58 +123,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                           ),
                         ],
                       ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Divider(color: Colors.grey.shade400, thickness: 1),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  "ou",
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Divider(color: Colors.grey.shade400, thickness: 1),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: .infinity,
-            child: ElevatedButton(
-              onPressed: () => {},
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Colors.white),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
-              ),
-              child: Row(
-                mainAxisAlignment: .center,
-                spacing: 5,
-                children: [
-                  Icon(
-                    Icons.person_add_alt_1,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  Text(
-                    "Criar nova conta",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: .bold,
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
