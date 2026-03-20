@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
+import 'package:inspecao_veicular_petroeng/pages/cadastrar_contrato_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/conclusao_vistoria_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/inspecao_page.dart';
 import 'package:inspecao_veicular_petroeng/pages/lista_vistoria_page.dart';
@@ -76,6 +77,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.novoVeiculo,
         builder: (_, _) => const NovoVeiculoPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.cadastrarContrato,
+        builder: (context, state) => const CadastrarContratoPage(),
       ),
     ],
   );

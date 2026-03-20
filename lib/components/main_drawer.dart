@@ -49,7 +49,18 @@ class MainDrawer extends ConsumerWidget {
               style: TextStyle(fontWeight: .bold),
             ),
           ),
-          SizedBox(height: alturaSafe * 0.65),
+          ListTile(
+            onTap: () => context.push(AppRoutes.cadastrarContrato),
+            leading: Icon(
+              Icons.edit_document,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              "Cadastrar Contrato",
+              style: TextStyle(fontWeight: .bold),
+            ),
+          ),
+          SizedBox(height: alturaSafe * 0.6),
           ElevatedButton(
             style: ButtonStyle(
               shadowColor: WidgetStatePropertyAll(Colors.transparent),
