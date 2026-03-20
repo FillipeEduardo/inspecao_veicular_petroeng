@@ -5,7 +5,7 @@ import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/main_app_bar.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_provider.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/veiculo_service_provider.dart';
+import 'package:inspecao_veicular_petroeng/services/veiculo_service.dart';
 
 class NovoVeiculoPage extends ConsumerStatefulWidget {
   const NovoVeiculoPage({super.key});

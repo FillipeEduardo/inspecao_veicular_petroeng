@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/inspecao_card.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_provider.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/vistoria_service_provider.dart';
+import 'package:inspecao_veicular_petroeng/services/vistoria_service.dart';
 
 class ConclusaoVistoriaPage extends ConsumerStatefulWidget {
   const ConclusaoVistoriaPage({super.key});

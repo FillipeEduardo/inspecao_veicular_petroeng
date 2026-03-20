@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_veiculo/lista_veiculo_state.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/veiculo_service_provider.dart';
 import 'package:inspecao_veicular_petroeng/services/veiculo_service.dart';
 
 class ListaVeiculoNotifier extends Notifier<ListaVeiculoState> {

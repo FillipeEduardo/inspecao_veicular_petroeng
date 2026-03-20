@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/providers/lista_status_inspecao/lista_status_inspecao_state.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/status_inspecao_service_provider.dart';
 import 'package:inspecao_veicular_petroeng/services/status_inspecao_service.dart';
 
 class ListaStatusInspecaoNotifier extends Notifier<ListaStatusInspecaoState> {

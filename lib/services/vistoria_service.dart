@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inspecao_veicular_petroeng/helpers/urls.dart';
 import 'package:inspecao_veicular_petroeng/models/list_result.dart';
 import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/models/vistoria.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
+import 'package:inspecao_veicular_petroeng/interceptors/auth_interceptor.dart';
 
 class VistoriaService {
   final Dio _dio;
@@ -73,3 +76,9 @@ class VistoriaService {
     }
   }
 }
+
+final vistoriaServiceProvider = Provider<VistoriaService>((ref) {
+  final dio = Dio(BaseOptions(baseUrl: Urls.apiBaseUrl));
+  dio.interceptors.add(AuthInterceptor(ref));
+  return VistoriaService(dio);
+});

@@ -3,8 +3,8 @@ import 'package:inspecao_veicular_petroeng/models/foto.dart';
 import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/status_inspecao.dart';
 import 'package:inspecao_veicular_petroeng/providers/nova_vistoria/nova_vistoria_state.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/evidencia_service_provider.dart';
-import 'package:inspecao_veicular_petroeng/providers/services/item_service_provider.dart';
+import 'package:inspecao_veicular_petroeng/services/evidencia_service.dart';
+import 'package:inspecao_veicular_petroeng/services/item_service.dart';
 
 class NovaVistoriaNotifier extends AsyncNotifier<NovaVistoriaState> {
   @override
