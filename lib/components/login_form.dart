@@ -4,6 +4,7 @@ import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
 import 'package:inspecao_veicular_petroeng/services/auth_service.dart';
 
@@ -23,22 +24,24 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     setState(() => isLoading = true);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final token = await AuthService().login(
+      final apiResult = await AuthService().login(
         email: _formState["email"]!,
         senha: _formState["senha"]!,
       );
-      if (token != null) {
-        await ref.read(authProvider.notifier).login(token);
-        if (!mounted) return;
-        context.go(AppRoutes.listaVistoria);
-      } else {
-        if (!mounted) return;
+      if (apiResult.erros?.isNotEmpty == true && mounted) {
+        setState(() => isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Credenciais inválidas'),
             behavior: SnackBarBehavior.floating,
           ),
         );
+      }
+      final token = (apiResult as SuccessApiResult).dados;
+      if (token != null) {
+        await ref.read(authProvider.notifier).login(token);
+        if (!mounted) return;
+        context.go(AppRoutes.listaVistoria);
       }
     }
     if (mounted) {
