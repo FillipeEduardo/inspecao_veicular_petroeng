@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DropdownPadrao extends StatefulWidget {
   final String label;
-  final List<Map<int, String>> opcoes;
+  final List<Map<num, String>> opcoes;
   final FormFieldValidator<int>? validacao;
   final Map<String, dynamic> formState;
   final String nome;
@@ -35,7 +35,7 @@ class DropdownPadrao extends StatefulWidget {
 class _DropdownPadraoState extends State<DropdownPadrao> {
   int? valorSelecionado;
 
-  List<MapEntry<int, String>> get _itens {
+  List<MapEntry<num, String>> get _itens {
     return widget.opcoes.expand((mapa) => mapa.entries).toList();
   }
 

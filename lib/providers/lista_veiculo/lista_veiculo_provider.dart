@@ -13,7 +13,7 @@ class ListaVeiculoNotifier extends Notifier<ListaVeiculoState> {
     if (state.isLoadingMore) return;
     state = state.copyWith(isLoadingMore: true);
     final apiResult = await _service.todos();
-    if (apiResult.erros != null && apiResult.dados != null) {
+    if (apiResult.dados != null) {
       state = state.copyWith(veiculos: apiResult.dados);
     }
     state = state.copyWith(isLoadingMore: false);
