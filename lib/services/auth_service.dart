@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:inspecao_veicular_petroeng/helpers/urls.dart';
 import 'package:inspecao_veicular_petroeng/models/api_result.dart';
-import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 
 class AuthService {
   final Dio _dio = Dio(BaseOptions(baseUrl: Urls.apiBaseUrl));
 
-  Future<Apiresult> login({
+  Future<Apiresult<String>> login({
     required String email,
     required String senha,
   }) async {
@@ -15,9 +14,9 @@ class AuthService {
         "/auth/login",
         data: {"email": email, "senha": senha},
       );
-      final result = SuccessApiResult.fromJson(
+      final result = Apiresult.fromJson(
         response.data!,
-        (dados) => dados as String,
+        fromJsonT: (dados) => dados as String,
       );
       return result;
     } on DioException catch (ex) {

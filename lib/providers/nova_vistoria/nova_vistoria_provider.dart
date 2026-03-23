@@ -9,11 +9,16 @@ import 'package:inspecao_veicular_petroeng/services/item_service.dart';
 class NovaVistoriaNotifier extends AsyncNotifier<NovaVistoriaState> {
   @override
   Future<NovaVistoriaState> build() async {
-    final itens = await ref.read(itemServiceProvider).todos();
-    final evidencias = await ref.read(evidenciaServiceProvider).todos();
+    final apiResultItens = await ref.read(itemServiceProvider).todos();
+    final apiResultEvidencias = await ref
+        .read(evidenciaServiceProvider)
+        .todos();
     NovaVistoriaState estadoInicial = NovaVistoriaState.initial();
+    if (apiResultItens.dados == null || apiResultEvidencias.dados == null) {
+      return estadoInicial;
+    }
     estadoInicial = estadoInicial.copyWith(
-      inspecoes: itens
+      inspecoes: apiResultItens.dados!
           .map(
             (item) => Inspecao(
               item: item,
@@ -21,7 +26,7 @@ class NovaVistoriaNotifier extends AsyncNotifier<NovaVistoriaState> {
             ),
           )
           .toList(),
-      fotos: evidencias
+      fotos: apiResultEvidencias.dados!
           .map((evidencia) => Foto(extensao: "", evidencia: evidencia))
           .toList(),
     );

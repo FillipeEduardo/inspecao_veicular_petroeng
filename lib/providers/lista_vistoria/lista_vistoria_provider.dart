@@ -15,16 +15,19 @@ class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
       state = ListaVistoriaState.initial();
       state = state.copyWith(isLoading: true);
 
-      final listResultVistoria = await _service.obterVistoriasPorUsuario(1);
+      final apiResult = await _service.obterVistoriasPorUsuario(1);
 
-      if (listResultVistoria == null) return;
+      if (apiResult.dados?.registros == null) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
 
       state = state.copyWith(
-        vistorias: listResultVistoria.dados.registros,
+        vistorias: apiResult.dados!.registros,
         currentPage: 1,
         hasMore:
-            listResultVistoria.dados.registros.length >
-            listResultVistoria.dados.totalDeRegistros,
+            apiResult.dados!.registros.length >
+            apiResult.dados!.totalDeRegistros,
         isLoading: false,
       );
     } catch (e) {
@@ -40,21 +43,19 @@ class ListaVistoriaNotifier extends Notifier<ListaVistoriaState> {
       state = state.copyWith(isLoadingMore: true);
 
       final nextPage = state.currentPage + 1;
-      final listResultVistoria = await _service.obterVistoriasPorUsuario(
-        nextPage,
-      );
+      final apiResult = await _service.obterVistoriasPorUsuario(nextPage);
 
-      if (listResultVistoria == null) {
+      if (apiResult.dados == null) {
         state = state.copyWith(isLoadingMore: false);
         return;
       }
 
       final hasMore =
-          state.vistorias.length + listResultVistoria.dados.registros.length <
-          listResultVistoria.dados.totalDeRegistros;
+          state.vistorias.length + apiResult.dados!.registros.length <
+          apiResult.dados!.totalDeRegistros;
 
       state = state.copyWith(
-        vistorias: [...state.vistorias, ...listResultVistoria.dados.registros],
+        vistorias: [...state.vistorias, ...apiResult.dados!.registros],
         currentPage: nextPage,
         hasMore: hasMore,
         isLoadingMore: false,

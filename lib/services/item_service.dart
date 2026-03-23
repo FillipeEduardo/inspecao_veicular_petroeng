@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/helpers/urls.dart';
+import 'package:inspecao_veicular_petroeng/models/api_result.dart';
 import 'package:inspecao_veicular_petroeng/models/item.dart';
-import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/interceptors/auth_interceptor.dart';
 
 class ItemService {
@@ -10,16 +10,17 @@ class ItemService {
 
   ItemService(this._dio);
 
-  Future<List<Item>> todos() async {
+  Future<Apiresult<List<Item>>> todos() async {
     try {
       final response = await _dio.get("/item");
-      var result = SuccessApiResult.fromJson(
+      var result = Apiresult.fromJson(
         response.data,
-        (dados) => (dados as List).map((x) => Item.fromJson(x)).toList(),
+        fromJsonT: (dados) =>
+            (dados as List).map((x) => Item.fromJson(x)).toList(),
       );
-      return result.dados;
-    } catch (_) {
-      return [];
+      return result;
+    } on DioException catch (ex) {
+      return Apiresult.fromJson(ex.response!.data);
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspecao_veicular_petroeng/helpers/urls.dart';
-import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
+import 'package:inspecao_veicular_petroeng/models/api_result.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 import 'package:inspecao_veicular_petroeng/interceptors/auth_interceptor.dart';
 
@@ -10,29 +10,30 @@ class VeiculoService {
 
   VeiculoService(this._dio);
 
-  Future<List<Veiculo>?> todos() async {
+  Future<Apiresult<List<Veiculo>>> todos() async {
     try {
       final response = await _dio.get("/veiculo");
-      final result = SuccessApiResult<List<Veiculo>>.fromJson(
+      final result = Apiresult.fromJson(
         response.data,
-        (dados) => (dados as List).map((x) => Veiculo.fromJson(x)).toList(),
+        fromJsonT: (dados) =>
+            (dados as List).map((x) => Veiculo.fromJson(x)).toList(),
       );
-      return result.dados;
-    } catch (_) {
-      return null;
+      return result;
+    } on DioException catch (ex) {
+      return Apiresult.fromJson(ex.response!.data);
     }
   }
 
-  Future<num?> criar(Map<String, dynamic> veiculo) async {
+  Future<Apiresult<num>> criar(Map<String, dynamic> veiculo) async {
     try {
       final response = await _dio.post("/veiculo", data: veiculo);
-      final result = SuccessApiResult.fromJson(
+      final result = Apiresult.fromJson(
         response.data,
-        (dados) => dados as num,
+        fromJsonT: (dados) => dados as num,
       );
-      return result.dados;
-    } catch (_) {
-      return null;
+      return result;
+    } on DioException catch (ex) {
+      return Apiresult.fromJson(ex.response!.data);
     }
   }
 }

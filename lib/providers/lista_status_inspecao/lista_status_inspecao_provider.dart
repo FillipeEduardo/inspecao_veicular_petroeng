@@ -14,7 +14,7 @@ class ListaStatusInspecaoNotifier extends Notifier<ListaStatusInspecaoState> {
     state = state.copyWith(isLoadingMore: true);
     final statusInspecao = await _service.todos();
     state = state.copyWith(
-      statusInspecao: statusInspecao,
+      statusInspecao: statusInspecao.dados,
       isLoadingMore: false,
     );
   }

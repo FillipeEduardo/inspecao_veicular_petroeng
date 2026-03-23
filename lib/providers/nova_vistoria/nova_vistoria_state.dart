@@ -3,7 +3,7 @@ import 'package:inspecao_veicular_petroeng/models/inspecao.dart';
 import 'package:inspecao_veicular_petroeng/models/veiculo.dart';
 
 class NovaVistoriaState {
-  final int? id;
+  final num? id;
   final DateTime data;
   final double quilometragemVeiculo;
   final Veiculo veiculo;
@@ -28,7 +28,7 @@ class NovaVistoriaState {
   }
 
   NovaVistoriaState copyWith({
-    int? id,
+    num? id,
     DateTime? data,
     double? quilometragemVeiculo,
     String? observacao,

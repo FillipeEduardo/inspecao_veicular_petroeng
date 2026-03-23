@@ -4,7 +4,6 @@ import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/helpers/app_routes.dart';
 import 'package:inspecao_veicular_petroeng/helpers/validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:inspecao_veicular_petroeng/models/success_api_result.dart';
 import 'package:inspecao_veicular_petroeng/providers/auth/auth_notifier.dart';
 import 'package:inspecao_veicular_petroeng/services/auth_service.dart';
 
@@ -37,7 +36,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           ),
         );
       }
-      final token = (apiResult as SuccessApiResult).dados;
+      final token = (apiResult).dados;
       if (token != null) {
         await ref.read(authProvider.notifier).login(token);
         if (!mounted) return;

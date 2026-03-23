@@ -21,10 +21,10 @@ class _NovoVeiculoPageState extends ConsumerState<NovoVeiculoPage> {
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final veiculoId = await ref
+      final apiResult = await ref
           .read(veiculoServiceProvider)
           .criar(_formState);
-      if (veiculoId != null) {
+      if (apiResult.dados != null) {
         await ref.read(listaVeiculoProvider.notifier).load();
         if (!mounted) return;
         context.pop();

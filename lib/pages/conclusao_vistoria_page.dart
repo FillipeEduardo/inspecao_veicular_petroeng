@@ -21,17 +21,17 @@ class _ConclusaoVistoriaPageState extends ConsumerState<ConclusaoVistoriaPage> {
       isLoading = true;
     });
     final novaVistoria = ref.read(novaVistoriaProvider).value!;
-    final vistoriaId = await ref
+    final apiResult = await ref
         .read(vistoriaServiceProvider)
         .criar(novaVistoria);
-    if (vistoriaId != null) {
+    if (apiResult.erros == null && apiResult.dados != null) {
       ref.read(novaVistoriaProvider.notifier).atualizar((state) {
-        return state.copyWith(id: vistoriaId);
+        return state.copyWith(id: apiResult.dados!);
       });
       novaVistoria.fotos?.forEach((foto) async {
         await ref
             .read(vistoriaServiceProvider)
-            .criarFoto(foto.file!.path, vistoriaId, foto.evidencia.id);
+            .criarFoto(foto.file!.path, apiResult.dados!, foto.evidencia.id);
       });
       setState(() {
         isLoading = false;

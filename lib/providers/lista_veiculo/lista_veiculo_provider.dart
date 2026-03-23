@@ -12,9 +12,9 @@ class ListaVeiculoNotifier extends Notifier<ListaVeiculoState> {
   Future<void> load() async {
     if (state.isLoadingMore) return;
     state = state.copyWith(isLoadingMore: true);
-    final veiculos = await _service.todos();
-    if (veiculos != null && veiculos.isNotEmpty) {
-      state = state.copyWith(veiculos: veiculos);
+    final apiResult = await _service.todos();
+    if (apiResult.erros != null && apiResult.dados != null) {
+      state = state.copyWith(veiculos: apiResult.dados);
     }
     state = state.copyWith(isLoadingMore: false);
   }

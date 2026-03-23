@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inspecao_veicular_petroeng/components/botao_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/input_padrao.dart';
 import 'package:inspecao_veicular_petroeng/components/main_app_bar.dart';
@@ -21,7 +22,12 @@ class _CadastrarContratoPageState extends ConsumerState<CadastrarContratoPage> {
   Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final _ = ref.read(contratoServiceProvider).criar(_formState);
+      final apiResult = await ref
+          .read(contratoServiceProvider)
+          .criar(_formState);
+      if (apiResult.dados != null && mounted) {
+        context.pop();
+      }
     }
   }
 
